@@ -65,7 +65,18 @@ function template(string) {
                     }
                 }
             }
-            el.setAttribute(attributeName, attributeValue);
+            if (attributeName === 'if') {
+                if (el.hasOwnProperty('_if')) {
+                    throw new Error('Parse error: multiple \'if\' attributes detected');
+                }
+                /* jshint ignore:start */
+                el._if = function() {
+                    return eval(attributeValue);
+                };
+                /* jshint ignore:end */
+            } else {
+                el.setAttribute(attributeName, attributeValue);
+            }
             // Track to next non-whitespace character
             while (/\s/.test(c)) {
                 i++;
