@@ -4,7 +4,7 @@ var test = require('tape');
 var template = require('../');
 
 test('parsing of nested elements (simple)', function(t) {
-    t.plan(9);
+    t.plan(13);
 
     template.set({
         document: jsdom('')
@@ -14,12 +14,15 @@ test('parsing of nested elements (simple)', function(t) {
     var el = compiled.tree[0];
     t.equal(el.nodeName.toLowerCase(), 'div');
     t.equal(el.getAttribute('class'), 'pull-right');
-    t.equal(el.children.length, 1);
-    el = el.children[0];
-    t.equal(el.nodeName.toLowerCase(), 'span');
-    t.equal(el.getAttribute('class'), 'muted');
-    t.equal(el.childNodes.length, 1);
-    el = el.childNodes[0];
+    t.equal(el.childNodes.length, 3);
+    t.equal(el.childNodes[0].nodeName.toLowerCase(), '#text');
+    t.equal(el.childNodes[0].nodeValue, '\n    ');
+    t.equal(el.childNodes[1].nodeName.toLowerCase(), 'span');
+    t.equal(el.childNodes[1].getAttribute('class'), 'muted');
+    t.equal(el.childNodes[1].childNodes.length, 1);
+    t.equal(el.childNodes[2].nodeName.toLowerCase(), '#text');
+    t.equal(el.childNodes[2].nodeValue, '\n');
+    el = el.childNodes[1].childNodes[0];
     t.equal(el.nodeName.toLowerCase(), '#text');
     t.equal(el.nodeValue, '\n        FUBAR\n    ');
 });

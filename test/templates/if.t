@@ -1,1 +1,1 @@
-<div if="true">Foo</div> 
+<div if="true">Foo</div>
