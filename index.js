@@ -4,13 +4,10 @@ try {
     config.document = document;
 } catch (e) {} // env: node.js
 
-function template(string) {
+function parse(root, chars, i) {
     var el;
-    var chars = string.split('');
-    var tree = [];
     var text = '';
     // Parse markup
-    var i = 0;
     var c;
     // Track to first opening bracket
     while ((c = chars[i++]) && c !== '<') {
@@ -18,7 +15,7 @@ function template(string) {
     }
     if (text) {
         el = config.document.createTextNode(text);
-        tree.push(el);
+        root.appendChild(el);
     }
     if (c === '<') {
         // Parse tag name
@@ -30,7 +27,7 @@ function template(string) {
             c = chars[i];
         }
         el = config.document.createElement(tagName);
-        tree.push(el);
+        root.appendChild(el);
         // Track to next non-whitespace character
         while (/\s/.test(c)) {
             i++;
@@ -89,10 +86,16 @@ function template(string) {
             }
         }
     }
+}
+
+function template(string) {
+    var doc = config.document;
+    var nodeList = doc.createDocumentFragment();
+    parse(nodeList, string.split(''), 0);
     var ret = function() {
-        console.log(chars);
+        console.log(string);
     };
-    ret.tree = tree;
+    ret.tree = nodeList.childNodes;
     return ret;
 }
 
