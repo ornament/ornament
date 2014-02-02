@@ -12,7 +12,7 @@ test('basic conditional parsing', function(t) {
     });
     var compiled = template(fs.readFileSync('test/templates/if.t', 'UTF-8'));
     t.equal(compiled.tree.length, 1, 'should parse a single element');
-    t.equal(compiled.tree[0].tagName.toLowerCase(), 'div', 'with the correct tag name');
+    t.equal(compiled.tree[0].nodeName.toLowerCase(), 'div', 'with the correct tag name');
     t.equal(compiled.tree[0].getAttribute('if'), null, 'without including the if attribute');
     t.ok(_.isFunction(compiled.tree[0]._if), 'should compile the conditional');
     t.ok(compiled.tree[0]._if(), 'should compile the conditional');

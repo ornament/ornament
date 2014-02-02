@@ -5,16 +5,21 @@ try {
 } catch (e) {} // env: node.js
 
 function template(string) {
+    var el;
     var chars = string.split('');
     var tree = [];
+    var text = '';
     // Parse markup
     var i = 0;
-    // Track to next non-whitespace character
-    while (/\s/.test(chars[i])) {
-        i++;
+    var c;
+    // Track to first opening bracket
+    while ((c = chars[i++]) && c !== '<') {
+        text += c;
     }
-    var c = chars[i];
-    i++;
+    if (text) {
+        el = config.document.createTextNode(text);
+        tree.push(el);
+    }
     if (c === '<') {
         // Parse tag name
         var tagName = '';
@@ -24,7 +29,7 @@ function template(string) {
             i++;
             c = chars[i];
         }
-        var el = config.document.createElement(tagName);
+        el = config.document.createElement(tagName);
         tree.push(el);
         // Track to next non-whitespace character
         while (/\s/.test(c)) {
