@@ -21,10 +21,23 @@ function parse(root, chars, i) {
         // Parse tag name
         var tagName = '';
         c = chars[i];
+        var closing;
+        if (c === '/') {
+            closing = true;
+            c = chars[++i];
+        }
         while (!/\s/.test(c) && c !== '>') {
             tagName += c;
             i++;
             c = chars[i];
+        }
+        if (closing) {
+            if (tagName !== root.nodeName.toLocaleLowerCase()) {
+                // TODO: Test this
+                throw new Error('Parse error: Trying to close non-open tag (' + tagName + ')');
+            }
+            // TODO: Log notice about self-closing tags (both redundant end tag and self-closing)
+            return i;
         }
         el = config.document.createElement(tagName);
         root.appendChild(el);
@@ -85,7 +98,11 @@ function parse(root, chars, i) {
                 c = chars[i];
             }
         }
+        // TODO: Don't dive if this is a self closing tag
+        // End of opening tag, move one level deeper
+        i = parse(el, chars, ++i);
     }
+    return i;
 }
 
 function template(string) {
