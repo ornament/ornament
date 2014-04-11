@@ -1,6 +1,4 @@
-var _ = require('lodash');
-var selfClosingTags = _(['input', 'br']); // TODO
-// http://www.w3.org/TR/html-markup/syntax.html#void-element
+var voidElements = require('./void-elements.js');
 
 var config = {};
 
@@ -105,7 +103,7 @@ function parse(root, chars, i) {
                 }
             }
             i++;
-            if (!selfClosingTags.contains(tagName)) {
+            if (!voidElements.contains(tagName)) {
                 // End of opening tag, move one level deeper
                 i = parse(el, chars, i);
             }
