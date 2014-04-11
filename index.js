@@ -89,9 +89,7 @@ function parse(root, chars, i) {
                         throw new Error('Parse error: multiple \'if\' attributes detected');
                     }
                     /* jshint ignore:start */
-                    el._if = function() {
-                        return eval(attributeValue);
-                    };
+                    el._if = new Function('return ' + attributeValue);
                     /* jshint ignore:end */
                 } else {
                     el.setAttribute(attributeName, attributeValue);
