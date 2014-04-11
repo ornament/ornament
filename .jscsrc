@@ -21,19 +21,28 @@
         "try",
         "catch"
     ],
+    "requireSpaceBeforeBlockStatements": true,
     "requireParenthesesAroundIIFE": true,
-    "requireSpacesInFunctionExpression": {
+    "requireSpacesInAnonymousFunctionExpression": {
         "beforeOpeningCurlyBrace": true
     },
-    "disallowSpacesInFunctionExpression": {
+    "disallowSpacesInAnonymousFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
+    "requireSpacesInNamedFunctionExpression": {
+        "beforeOpeningCurlyBrace": true
+    },
+    "disallowSpacesInNamedFunctionExpression": {
         "beforeOpeningRoundBrace": true
     },
     "disallowMultipleVarDecl": true,
+    "requireBlocksOnNewline": 1,
+    //"disallowPaddingNewlinesInBlocks": true, Bugs out on comments, also, typo in README
     "disallowEmptyBlocks": true,
     "disallowSpacesInsideArrayBrackets": true,
     "disallowSpacesInsideParentheses": true,
     "requireSpacesInsideObjectBrackets": "all",
-    "disallowQuotedKeysInObjects": "allButReserved",
+    "disallowQuotedKeysInObjects": true,
     "disallowSpaceAfterObjectKeys": true,
     "requireCommaBeforeLineBreak": true,
     "requireOperatorBeforeLineBreak": [
@@ -120,12 +129,14 @@
     "validateIndentation": 4,
     "disallowMixedSpacesAndTabs": true,
     "disallowTrailingWhitespace": true,
+    "disallowTrailingComma": true,
     "disallowKeywordsOnNewLine": ["else", "catch"],
     "requireLineFeedAtFileEnd": true,
     "maximumLineLength": 120,
     "requireCapitalizedConstructors": true,
     "safeContextKeyword": "that",
     "requireDotNotation": true,
+    "disallowYodaConditions": true,
     "validateJSDoc": {
         "checkParamNames": true,
         "checkRedundantParams": true,
