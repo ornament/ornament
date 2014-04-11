@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var selfClosingTags = _(['input', 'br']); // TODO
+// http://www.w3.org/TR/html-markup/syntax.html#void-element
 
 var config = {};
 
