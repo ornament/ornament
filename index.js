@@ -9,6 +9,21 @@ try {
 function createTextNode(root, text) {
     if (text) {
         var el = config.document.createTextNode(text);
+        if (/{{/.test(text)) {
+            // SPEC: Consider using _.template
+            el.fn = function(scope) {
+                scope = scope || {};
+                // TODO: Save reference to scope
+                return text.replace(/\{\{([^}]*)\}\}/, function(matched, attr) {
+                    // TODO: Set up listener for attribute
+                    var value = scope[attr];
+                    if (value === undefined) {
+                        value = '';
+                    }
+                    return value;
+                });
+            };
+        }
         root.appendChild(el);
     }
 }
