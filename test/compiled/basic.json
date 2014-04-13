@@ -1,0 +1,34 @@
+[{
+    "tag": "span",
+    "children": [{
+        "tag": "#text",
+        "value": "helpers.inject(scope.last) + ', ' + helpers.inject(scope.first)"
+    }]
+}, {
+    "tag": "#text",
+    "value": "'\\n'"
+}, {
+    "tag": "span",
+    "children": [{
+        "tag": "#text",
+        "value": "'Hello ' + helpers.inject(scope.first) + ' ' + helpers.inject(scope.last) + '!'"
+    }]
+}, {
+    "tag": "#text",
+    "value": "'\\n'"
+}, {
+    "tag": "span",
+    "children": [{
+        "tag": "#text",
+        "value": "'Username: ' + helpers.inject(scope.first) + helpers.inject(scope.last)"
+    }]
+}, {
+    "tag": "#text",
+    "value": "'\\n'"
+}, {
+    "tag": "span",
+    "children": [{
+        "tag": "#text",
+        "value": "'\\'' + helpers.inject(scope.first) + '\\''"
+    }]
+}]
