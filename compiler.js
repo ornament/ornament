@@ -16,18 +16,23 @@ function createTextNode(parent, text) {
     if (!text) { return; }
     // TODO: Not sure about the linebreak fix, probably need to make a generic fix for escape characters
     var value = '\'' + text.replace(/\n/g, '\\n').replace(/'/g, '\\\'') + '\'';
+    var fields = [];
     value = value.replace(/\{\{([^}]*)\}\}/g, function(matched, attr) {
-        // TODO: Set up listener for attribute
+        fields.push(attr);
         return '\' + helpers.inject(scope.' + attr + ') + \'';
     });
     value = value.replace(/^'' \+ /, '');
     value = value.replace(/ \+ ''$/, '');
     value = value.replace(/\+ '' \+/g, '+');
     ensureChildren(parent);
-    parent.children.push({
+    var element = {
         tag: '#text',
         value: value
-    });
+    };
+    if (fields.length > 0) {
+        element.fields = fields;
+    }
+    parent.children.push(element);
 }
 
 function parse(parent, chars, i) {
