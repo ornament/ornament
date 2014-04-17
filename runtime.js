@@ -1,7 +1,8 @@
 var _ = require('lodash');
 
 var helpers = {
-    inject: function(value) {
+    inject: function(scope, attribute) {
+        var value = scope[attribute];
         return value === undefined ? '' : value;
     }
 };

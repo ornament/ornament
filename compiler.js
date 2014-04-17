@@ -19,7 +19,7 @@ function createTextNode(parent, text) {
     var fields = [];
     value = value.replace(/\{\{([^}]*)\}\}/g, function(matched, attr) {
         fields.push(attr);
-        return '\' + helpers.inject(scope.' + attr + ') + \'';
+        return '\' + helpers.inject(scope, \'' + attr + '\') + \'';
     });
     value = value.replace(/^'' \+ /, '');
     value = value.replace(/ \+ ''$/, '');

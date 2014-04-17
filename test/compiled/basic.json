@@ -2,7 +2,7 @@
     "tag": "span",
     "children": [{
         "tag": "#text",
-        "value": "helpers.inject(scope.last) + ', ' + helpers.inject(scope.first)"
+        "value": "helpers.inject(scope, 'last') + ', ' + helpers.inject(scope, 'first')",
         "fields": [
             "last",
             "first"
@@ -15,7 +15,7 @@
     "tag": "span",
     "children": [{
         "tag": "#text",
-        "value": "'Hello ' + helpers.inject(scope.first) + ' ' + helpers.inject(scope.last) + '!'"
+        "value": "'Hello ' + helpers.inject(scope, 'first') + ' ' + helpers.inject(scope, 'last') + '!'",
         "fields": [
             "first",
             "last"
@@ -28,7 +28,7 @@
     "tag": "span",
     "children": [{
         "tag": "#text",
-        "value": "'Username: ' + helpers.inject(scope.first) + helpers.inject(scope.last)"
+        "value": "'Username: ' + helpers.inject(scope, 'first') + helpers.inject(scope, 'last')",
         "fields": [
             "first",
             "last"
@@ -41,7 +41,7 @@
     "tag": "span",
     "children": [{
         "tag": "#text",
-        "value": "'\\'' + helpers.inject(scope.first) + '\\''"
+        "value": "'\\'' + helpers.inject(scope, 'first') + '\\''",
         "fields": [
             "first"
         ]
