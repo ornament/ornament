@@ -18,13 +18,15 @@
   "bugs": {
     "url": "https://github.com/CMTegner/template/issues"
   },
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^2.4.1"
+  },
   "devDependencies": {
     "jscs": "mdevils/node-jscs",
     "jshint": "^2.5.0",
-    "lodash": "^2.4.1",
     "jsdom": "^0.10.5",
     "faucet": "0.0.1",
-    "tape": "^2.12.3"
+    "tape": "^2.12.3",
+    "backbone": "^1.1.2"
   }
 }
