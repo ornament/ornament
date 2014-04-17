@@ -4,7 +4,9 @@
   "description": "TBA",
   "main": "index.js",
   "scripts": {
-    "test": "jshint *.js **/*.js && jscs *.js **/*.js && tape test/{*,**/*}.js | faucet",
+    "validate": "jshint {*,**/*}.js && jscs {*,**/*}.js",
+    "unit": "tape test/{*,**/*}.js | faucet",
+    "test": "npm run validate && npm run unit",
     "browserify": "browserify -t brfs browser.js > bundle.js"
   },
   "repository": {
