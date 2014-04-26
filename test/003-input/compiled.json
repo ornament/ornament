@@ -1,0 +1,9 @@
+[
+    {
+        "tag": "input",
+        "attributes": {
+            "type": "number",
+            "pattern": "[0-9]"
+        }
+    }
+]
