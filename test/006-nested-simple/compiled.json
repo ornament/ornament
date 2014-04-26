@@ -1,0 +1,30 @@
+[
+    {
+        "tag": "div",
+        "attributes": {
+            "class": "pull-right"
+        },
+        "children": [
+            {
+                "tag": "#text",
+                "value": "'\\n    '"
+            },
+            {
+                "tag": "span",
+                "attributes": {
+                    "class": "muted"
+                },
+                "children": [
+                    {
+                        "tag": "#text",
+                        "value": "'\\n        FUBAR\\n    '"
+                    }
+                ]
+            },
+            {
+                "tag": "#text",
+                "value": "'\\n'"
+            }
+        ]
+    }
+]
