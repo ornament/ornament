@@ -142,5 +142,5 @@ function parse(parent, chars, i) {
 module.exports = function(string) {
     var root = {};
     parse(root, string.split(''), 0);
-    return root.children;
+    return root.children || [];
 };
