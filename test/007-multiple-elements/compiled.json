@@ -1,0 +1,42 @@
+[
+    {
+        "tag": "label",
+        "attributes": {
+            "for": "foo"
+        },
+        "children": [
+            {
+                "tag": "#text",
+                "value": "'Number'"
+            }
+        ]
+    },
+    {
+        "tag": "#text",
+        "value": "'\\n'"
+    },
+    {
+        "tag": "input",
+        "attributes": {
+            "id": "foo",
+            "type": "number",
+            "pattern": "[0-9]"
+        }
+    },
+    {
+        "tag": "#text",
+        "value": "'\\n'"
+    },
+    {
+        "tag": "button",
+        "attributes": {
+            "class": "btn btn-primary"
+        },
+        "children": [
+            {
+                "tag": "#text",
+                "value": "'Clicky'"
+            }
+        ]
+    }
+]
