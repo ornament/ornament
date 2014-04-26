@@ -1,0 +1,14 @@
+[
+    {
+        "tag": "div",
+        "attributes": {
+            "if": "true"
+        },
+        "children": [
+            {
+                "tag": "#text",
+                "value": "'Foo'"
+            }
+        ]
+    }
+]

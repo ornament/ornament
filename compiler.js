@@ -109,17 +109,12 @@ function parse(parent, chars, i) {
                         }
                     }
                 }
-                if (attributeName === 'if') {
-                    if (el.hasOwnProperty('if')) {
-                        throw new Error('Parse error: multiple \'if\' attributes detected');
-                    }
-                    /* jshint evil: true */
-                    el.if = new Function('return ' + attributeValue);
-                    /* jshint evil: false */
-                } else {
-                    ensureAttributes(el);
-                    el.attributes[attributeName] = attributeValue;
+                ensureAttributes(el);
+                if (el.attributes.hasOwnProperty(attributeName)) {
+                    // TODO: More tests
+                    throw new Error('Parse error: multiple \'' + attributeName + '\' attributes detected');
                 }
+                el.attributes[attributeName] = attributeValue;
                 // Track to next non-whitespace character
                 while (/\s/.test(c)) {
                     i++;

@@ -23,8 +23,14 @@ function createElements(root, elements, scope) {
             }
         } else {
             el = config.document.createElement(element.tag);
-            _.forEach(element.attributes, function(attr, value) {
-                el.setAttribute(value, attr);
+            _.forEach(element.attributes, function(value, attr) {
+                if (attr === 'if') {
+                    /* jshint evil: true */
+                    el._if = new Function('return ' + value);
+                    /* jshint evil: false */
+                } else {
+                    el.setAttribute(attr, value);
+                }
             });
             createElements(el, element.children, scope);
         }
