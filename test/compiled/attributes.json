@@ -1,0 +1,42 @@
+[{
+    "tag": "input",
+    "attributes": {
+        "type": "text",
+        "value": "foo"
+    }
+}, {
+    "tag": "#text",
+    "value": "'\\n'"
+}, {
+    "tag": "textarea",
+    "attributes": {
+        "name": "message",
+        "id": "myMessage",
+        "cols": "30",
+        "rows": "10"
+    }
+}, {
+    "tag": "#text",
+    "value": "'\\n'"
+}, {
+    "tag": "button",
+    "attributes": {
+        "class": "btn btn-primary"
+    },
+    "children": [{
+        "tag": "#text",
+        "value": "'Click me!'"
+    }]
+}, {
+    "tag": "#text",
+    "value": "'\\n'"
+}, {
+    "tag": "div",
+    "attributes": {
+        "class": "alert alert-info"
+    },
+    "children": [{
+        "tag": "#text",
+        "value": "'\\n    This is a message. Read me.\\n'"
+    }]
+}]
