@@ -12,8 +12,9 @@ test('basic template rendering', function(t) {
     var template = require('../compiled/basic.json');
     var tree = runtime(template, { first: 'John', last: 'Doe' });
     var html = '';
-    _.forEach(tree.childNodes, function (child) {
-        html += child.nodeValue || child.innerHTML;
+    _.forEach(tree.childNodes, function(child) {
+        html += child.nodeValue || child.outerHTML;
     });
-    t.equal(html, 'Doe, John\nHello John Doe!\nUsername: JohnDoe\n\'John\'');
+    t.equal(html, '<span>Doe, John</span>\n<span>Hello John Doe!</span>\n' +
+        '<span>Username: JohnDoe</span>\n<span>\'John\'</span>');
 });

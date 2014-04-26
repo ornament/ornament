@@ -8,7 +8,8 @@ test('reactive templates', function(t) {
     t.plan(5);
 
     runtime.set({
-        document: jsdom('')
+        document: jsdom(''),
+        binding: require('../../binding-backbone.js')
     });
     var template = require('../compiled/basic.json');
     var model = new Model();
@@ -16,25 +17,29 @@ test('reactive templates', function(t) {
 
     function html() {
         return _.reduce(tree.childNodes, function(str, child) {
-            return str + (child.nodeValue || child.innerHTML);
+            return str + (child.nodeValue || child.outerHTML);
         }, '');
     }
 
-    t.equal(html(), ', \nHello  !\nUsername: \n\'\'');
+    t.equal(html(), '<span>, </span>\n<span>Hello  !</span>\n<span>Username: </span>\n<span>\'\'</span>');
 
     model.set('first', 'Drake');
 
-    t.equal(html(), ', Drake\nHello Drake !\nUsername: Drake\n\'Drake\'');
+    t.equal(html(), '<span>, Drake</span>\n<span>Hello Drake !</span>\n' +
+        '<span>Username: Drake</span>\n<span>\'Drake\'</span>');
 
     model.set('last', 'Bell');
 
-    t.equal(html(), 'Bell, Drake\nHello Drake Bell!\nUsername: DrakeBell\n\'Drake\'');
+    t.equal(html(), '<span>Bell, Drake</span>\n<span>Hello Drake Bell!</span>\n' +
+        '<span>Username: DrakeBell</span>\n<span>\'Drake\'</span>');
 
     model.unset('first');
 
-    t.equal(html(), 'Bell, \nHello  Bell!\nUsername: Bell\n\'\'');
+    t.equal(html(), '<span>Bell, </span>\n<span>Hello  Bell!</span>\n' +
+        '<span>Username: Bell</span>\n<span>\'\'</span>');
 
     model.clear();
 
-    t.equal(html(), ', \nHello  !\nUsername: \n\'\'');
+    t.equal(html(), '<span>, </span>\n<span>Hello  !</span>\n' +
+        '<span>Username: </span>\n<span>\'\'</span>');
 });
