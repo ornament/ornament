@@ -7,7 +7,7 @@ var runtime = require('../../runtime.js');
 test('parsing of nested elements (simple)', function(t) {
     t.plan(14);
 
-    var compiled = compiler(fs.readFileSync('test/006-nested-simple/nested-simple.t', 'UTF-8'));
+    var compiled = compiler(fs.readFileSync(__dirname + '/nested-simple.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
     runtime.settings = {

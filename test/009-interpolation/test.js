@@ -7,7 +7,7 @@ var runtime = require('../../runtime.js');
 test('basic string interpolation', function(t) {
     t.plan(24);
 
-    var compiled = compiler(fs.readFileSync('test/008-interpolation/interpolation.t', 'UTF-8'));
+    var compiled = compiler(fs.readFileSync(__dirname + '/interpolation.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
     runtime.settings = {

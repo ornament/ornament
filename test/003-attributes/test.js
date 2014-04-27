@@ -8,7 +8,7 @@ var Model = require('backbone').Model;
 test('parse nodes with attributes', function(t) {
     t.plan(27);
 
-    var compiled = compiler(fs.readFileSync('test/002-attributes/attributes.t', 'UTF-8'));
+    var compiled = compiler(fs.readFileSync(__dirname + '/attributes.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
     runtime.settings = {

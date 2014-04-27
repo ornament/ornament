@@ -7,7 +7,7 @@ var runtime = require('../../runtime.js');
 test('basic markup parsing', function(t) {
     t.plan(3);
 
-    var compiled = compiler(fs.readFileSync('test/002-br/br.t', 'UTF-8'));
+    var compiled = compiler(fs.readFileSync(__dirname + '/br.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
     runtime.settings = {

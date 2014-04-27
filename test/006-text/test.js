@@ -4,10 +4,10 @@ var test = require('tape');
 var compiler = require('../../compiler.js');
 var runtime = require('../../runtime.js');
 
-test('basic markup parsing', function(t) {
-    t.plan(5);
+test('basic text node parsing', function(t) {
+    t.plan(4);
 
-    var compiled = compiler(fs.readFileSync('test/003-input/input.t', 'UTF-8'));
+    var compiled = compiler(fs.readFileSync(__dirname + '/text.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
     runtime.settings = {
@@ -15,7 +15,6 @@ test('basic markup parsing', function(t) {
     };
     var tree = runtime(compiled);
     t.equal(tree.childNodes.length, 1);
-    t.equal(tree.childNodes[0].nodeName.toLowerCase(), 'input');
-    t.equal(tree.childNodes[0].getAttribute('type'), 'number');
-    t.equal(tree.childNodes[0].getAttribute('pattern'), '[0-9]');
+    t.equal(tree.childNodes[0].nodeName.toLocaleLowerCase(), '#text');
+    t.equal(tree.childNodes[0].nodeValue, 'Hello World!\n');
 });

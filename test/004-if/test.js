@@ -8,7 +8,7 @@ var runtime = require('../../runtime.js');
 test('basic conditional parsing', function(t) {
     t.plan(7);
 
-    var compiled = compiler(fs.readFileSync('test/004-if/if.t', 'UTF-8'));
+    var compiled = compiler(fs.readFileSync(__dirname + '/if.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
     runtime.settings = {
@@ -22,6 +22,6 @@ test('basic conditional parsing', function(t) {
     t.ok(tree.childNodes[0]._if());
 
     t.throws(function() {
-        compiler(fs.readFileSync('test/004-if/if-fail.t', 'UTF-8'));
+        compiler(fs.readFileSync(__dirname + '/if-fail.t', 'UTF-8'));
     }, 'should fail on multiple if attributes');
 });

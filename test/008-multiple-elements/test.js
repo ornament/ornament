@@ -7,7 +7,7 @@ var runtime = require('../../runtime.js');
 test('parsing of multiple top-level elements', function(t) {
     t.plan(20);
 
-    var compiled = compiler(fs.readFileSync('test/007-multiple-elements/multiple-elements.t', 'UTF-8'));
+    var compiled = compiler(fs.readFileSync(__dirname + '/multiple-elements.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
     runtime.settings = {

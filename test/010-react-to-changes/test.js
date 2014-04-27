@@ -9,7 +9,7 @@ var Model = require('backbone').Model;
 test('reactive templates', function(t) {
     t.plan(6);
 
-    var compiled = compiler(fs.readFileSync('test/009-react-to-changes/interpolation.t', 'UTF-8'));
+    var compiled = compiler(fs.readFileSync(__dirname + '/interpolation.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
     runtime.settings = {
