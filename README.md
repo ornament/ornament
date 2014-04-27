@@ -22,5 +22,9 @@ TODO
 * Run tests in browser via testling
 * Remove code in index.js + migrate old tests
 * Interpolation in attributes
-* `if` attribute
-* `repeat` attribute
+* `if` attribute (should this include interpolation? if="{{condition}}" vs. if="condition")
+* Reactive `repeat` support
+* Ability to reference parent scope (needed for `repeat`)
+* Rename `inject`
+* Throw descriptive message if `document` is missing, linking to Node.js usage docs
+* Reduce usage of external dependencies (e.g. reduce `lodash` to specific methods if is saves runtime space)
