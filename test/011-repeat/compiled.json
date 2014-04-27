@@ -1,0 +1,30 @@
+[
+    {
+        "tag": "ul",
+        "children": [
+            {
+                "tag": "#text",
+                "value": "'\\n    '"
+            },
+            {
+                "tag": "li",
+                "attributes": {
+                    "repeat": "people"
+                },
+                "children": [
+                    {
+                        "tag": "#text",
+                        "value": "'\\n        ' + helpers.inject(scope, 'name') + '\\n    '",
+                        "fields": [
+                            "name"
+                        ]
+                    }
+                ]
+            },
+            {
+                "tag": "#text",
+                "value": "'\\n'"
+            }
+        ]
+    }
+]

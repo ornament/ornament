@@ -11,6 +11,14 @@ function read(scope, attribute) {
     return value === undefined ? '' : value;
 }
 
+function collection(scope) {
+    if (scope.hasOwnProperty('models')) {
+        return scope.models;
+    } else {
+        return scope;
+    }
+}
+
 /**
  * Set up listener(s) for changes to `scope`
  *
@@ -31,4 +39,5 @@ function listen(cb, scope, attributes, helpers) {
 }
 
 module.exports.read = read;
+module.exports.collection = collection;
 module.exports.listen = listen;
