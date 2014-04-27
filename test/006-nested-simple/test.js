@@ -10,9 +10,9 @@ test('parsing of nested elements (simple)', function(t) {
     var compiled = compiler(fs.readFileSync('test/006-nested-simple/nested-simple.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
-    runtime.set({
+    runtime.settings = {
         document: jsdom('')
-    });
+    };
     var tree = runtime(compiled);
     t.equal(tree.childNodes.length, 1);
     var el = tree.childNodes[0];

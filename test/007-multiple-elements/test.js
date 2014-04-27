@@ -10,9 +10,9 @@ test('parsing of multiple top-level elements', function(t) {
     var compiled = compiler(fs.readFileSync('test/007-multiple-elements/multiple-elements.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
-    runtime.set({
+    runtime.settings = {
         document: jsdom('')
-    });
+    };
     var tree = runtime(compiled);
     t.equal(tree.childNodes.length, 5, 'should parse all the top-level elements');
     var el = tree.childNodes[0];

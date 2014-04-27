@@ -11,9 +11,9 @@ test('basic conditional parsing', function(t) {
     var compiled = compiler(fs.readFileSync('test/004-if/if.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
-    runtime.set({
+    runtime.settings = {
         document: jsdom('')
-    });
+    };
     var tree = runtime(compiled);
     t.equal(tree.childNodes.length, 1);
     t.equal(tree.childNodes[0].nodeName.toLowerCase(), 'div');

@@ -1,25 +1,18 @@
 var _ = require('lodash');
 
-var helpers = {
-    inject: function(scope, attribute) {
-        var value = scope[attribute];
-        return value === undefined ? '' : value;
-    }
-};
-
-function createElements(root, elements, scope) {
+function createElements(root, elements, scope, config) {
     _.forEach(elements, function(element) {
         var el;
         if (element.tag === '#text') {
             /* jshint evil: true */
             var fn = new Function('helpers', 'scope', 'return ' + element.value);
             /* jshint evil: false */
-            el = config.document.createTextNode(fn(helpers, scope));
+            el = config.document.createTextNode(fn(config, scope));
             if (config.listen) {
                 el.fn = function(helpers, scope) {
                     el.nodeValue = fn(helpers, scope);
                 };
-                config.listen(el.fn, scope, element.fields, helpers);
+                config.listen(el.fn, scope, element.fields, config);
             }
         } else {
             el = config.document.createElement(element.tag);
@@ -32,36 +25,30 @@ function createElements(root, elements, scope) {
                     el.setAttribute(attr, value);
                 }
             });
-            createElements(el, element.children, scope);
+            createElements(el, element.children, scope, config);
         }
         root.appendChild(el);
     });
 }
 
 function runtime(template, scope) {
-    var doc = config.document;
+    var cfg = _.defaults({}, runtime.settings, config);
+    var doc = cfg.document;
     var nodeList = doc.createDocumentFragment();
-    createElements(nodeList, template, scope);
+    createElements(nodeList, template, scope, cfg);
     return nodeList;
 }
 
-var config = {};
+var config = {
+    inject: function(scope, attribute) {
+        var value = scope[attribute];
+        return value === undefined ? '' : value;
+    }
+};
 try {
     config.document = document;
 } catch (e) {} // env: Node.js
 
-runtime.set = function(options) {
-    if (options.hasOwnProperty('document')) {
-        config.document = options.document;
-    }
-    if (options.hasOwnProperty('binding')) {
-        if (options.binding.hasOwnProperty('read')) {
-            helpers.inject = options.binding.read;
-        }
-        if (options.binding.hasOwnProperty('listen')) {
-            config.listen = options.binding.listen;
-        }
-    }
-};
+runtime.settings = {};
 
 module.exports = runtime;

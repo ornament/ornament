@@ -12,10 +12,11 @@ test('reactive templates', function(t) {
     var compiled = compiler(fs.readFileSync('test/009-react-to-changes/interpolation.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
-    runtime.set({
+    runtime.settings = {
         document: jsdom(''),
-        binding: require('../../binding-backbone.js')
-    });
+        inject: require('../../binding-backbone.js').read,
+        listen: require('../../binding-backbone.js').listen
+    };
     var data = new Model();
     var tree = runtime(compiled, data);
 
