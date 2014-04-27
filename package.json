@@ -4,7 +4,7 @@
   "description": "TBA",
   "main": "index.js",
   "scripts": {
-    "validate": "jshint *.js **/*.js test/**/*.js && jscs *.js **/*.js test/**/*.js",
+    "validate": "jshint *.js **/*.js test/**/*.js && jscs *.js test",
     "unit": "tape test/{*,**/*}.js | faucet",
     "test": "npm run validate && npm run unit",
     "browserify": "browserify -t brfs browser.js > bundle.js"
