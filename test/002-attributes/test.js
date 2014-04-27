@@ -1,18 +1,22 @@
+var fs = require('fs');
 var jsdom = require('jsdom').jsdom;
 var test = require('tape');
+var compiler = require('../../compiler.js');
 var runtime = require('../../runtime.js');
 var Model = require('backbone').Model;
 
-test('assign attributes to elements', function(t) {
-    t.plan(26);
+test('parse nodes with attributes', function(t) {
+    t.plan(27);
 
-    runtime.set({
+    var compiled = compiler(fs.readFileSync('test/002-attributes/attributes.t', 'UTF-8'));
+    t.deepEqual(compiled, require('./compiled.json'));
+
+    runtime.settings = {
         document: jsdom(''),
-        binding: require('../../binding-backbone.js')
-    });
-    var template = require('../compiled/attributes.json');
-    var model = new Model();
-    var tree = runtime(template, model);
+        inject: require('../../binding-backbone.js').read
+    };
+    var data = new Model();
+    var tree = runtime(compiled, data);
 
     var el = tree.childNodes[0];
     t.equal(el.nodeName.toLowerCase(), 'input');
