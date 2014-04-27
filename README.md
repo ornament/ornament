@@ -20,7 +20,6 @@ TODO
 * Extract event listener logic and pair with template change events, i.e. 'ornament-bind-*' (example: 'ornament-bind-backbone')
 * Figure out how to handle mixed models (e.g. POJO + Backbone.Model). Possibly sniff types somehow?
 * Run tests in browser via testling
-* Remove code in index.js + migrate old tests
 * Interpolation in attributes
 * `if` attribute (should this include interpolation? if="{{condition}}" vs. if="condition")
 * Reactive `repeat` support
