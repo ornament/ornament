@@ -2,7 +2,12 @@ var _ = require('lodash');
 
 function read(scope, attribute) {
     // TODO: Handle nested attributes
-    var value = scope.get(attribute);
+    var value;
+    if (_.isFunction(scope.get)) {
+        value = scope.get(attribute);
+    } else {
+        value = scope[attribute];
+    }
     return value === undefined ? '' : value;
 }
 
