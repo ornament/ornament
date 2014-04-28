@@ -7,7 +7,7 @@ var runtime = require('../../runtime.js');
 var Collection = require('backbone').Collection;
 
 test('reactive display of items in collections', function(t) {
-    t.plan(44);
+    t.plan(57);
 
     var compiled = compiler(fs.readFileSync(__dirname + '/list.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
@@ -20,11 +20,14 @@ test('reactive display of items in collections', function(t) {
     runtime.settings.inject = require('../../binding-backbone.js').read;
     runtime.settings.listen = require('../../binding-backbone.js').listen;
     runtime.settings.collection = require('../../binding-backbone.js').collection;
-    runtime.settings.listenToCollection = function listenToCollection(items, add) {
+    runtime.settings.listenToCollection = function listenToCollection(items, add, remove) {
         // TODO: remove, reset, sort
         items.on('add', function(item) {
             var index = _.indexOf(items.models, item);
             add(item, index);
+        });
+        items.on('remove', function(item, collection, options) {
+            remove(item, options.index);
         });
     };
 
@@ -113,6 +116,29 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), '#text');
     t.equal(el.nodeValue, '\n            Drake\n        ');
     el = kids[2];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    el = children(el)[0];
+    t.equal(el.nodeName.toLowerCase(), 'a');
+    t.equal(el.getAttribute('href'), '#');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, '\n            Zulu\n        ');
+
+    data.people.remove(data.people.at(0));
+
+    kids = children(children(tree)[0]);
+    t.equal(kids.length, 2);
+    el = kids[0];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    el = children(el)[0];
+    t.equal(el.nodeName.toLowerCase(), 'a');
+    t.equal(el.getAttribute('href'), '#');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, '\n            Drake\n        ');
+    el = kids[1];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     el = children(el)[0];

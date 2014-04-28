@@ -28,6 +28,7 @@ function createElement(root, element, scope, config) {
                         var el = createElement(root, elm, item, config);
                         if (el) {
                             var children = root.children;
+                            // TODO: Needs to not be affected by sibling's `if` result
                             if (index === children.length) {
                                 root.appendChild(el);
                             } else {
@@ -35,7 +36,11 @@ function createElement(root, element, scope, config) {
                             }
                         }
                     };
-                    config.listenToCollection(collection, el.add);
+                    el.remove = function(item, index) {
+                        // TODO: Needs to keep reference to actual DOM node
+                        root.removeChild(root.children[index]);
+                    };
+                    config.listenToCollection(collection, el.add, el.remove);
                 }
                 var elm = _.cloneDeep(element); // TODO: Lift `repeat` to top level
                 delete elm.attributes.repeat;
