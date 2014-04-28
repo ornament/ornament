@@ -21,11 +21,29 @@ function createElement(root, element, scope, config) {
                 el._if = new Function('return ' + value);
                 /* jshint evil: false */
             } else if (attr === 'repeat') {
-                var items = config.collection(config.inject(scope, value));
+                var collection = config.inject(scope, value);
+                var items = config.collection(collection);
+                if (_.isFunction(config.listenToCollection)) {
+                    el.add = function(item, index) {
+                        var el = createElement(root, elm, item, config);
+                        if (el) {
+                            var children = root.children;
+                            if (index === children.length) {
+                                root.appendChild(el);
+                            } else {
+                                root.insertBefore(el, children[index]);
+                            }
+                        }
+                    };
+                    config.listenToCollection(collection, el.add);
+                }
                 var elm = _.cloneDeep(element); // TODO: Lift `repeat` to top level
                 delete elm.attributes.repeat;
                 _.forEach(items, function(item) {
-                    createElement(root, elm, item, config);
+                    var el = createElement(root, elm, item, config);
+                    if (el) {
+                        root.appendChild(el);
+                    }
                 });
                 el = undefined;
             } else {
@@ -36,14 +54,15 @@ function createElement(root, element, scope, config) {
             createElements(el, element.children, scope, config);
         }
     }
-    if (el) {
-        root.appendChild(el);
-    }
+    return el;
 }
 
 function createElements(root, elements, scope, config) {
     _.forEach(elements, function(element) {
-        createElement(root, element, scope, config);
+        var el = createElement(root, element, scope, config);
+        if (el) {
+            root.appendChild(el);
+        }
     });
 }
 

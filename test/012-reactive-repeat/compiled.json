@@ -1,0 +1,49 @@
+[
+    {
+        "tag": "ul",
+        "attributes": {
+            "class": "nav nav-tabs"
+        },
+        "children": [
+            {
+                "tag": "#text",
+                "value": "'\\n    '"
+            },
+            {
+                "tag": "li",
+                "attributes": {
+                    "repeat": "people"
+                },
+                "children": [
+                    {
+                        "tag": "#text",
+                        "value": "'\\n        '"
+                    },
+                    {
+                        "tag": "a",
+                        "attributes": {
+                            "href": "#"
+                        },
+                        "children": [
+                            {
+                                "tag": "#text",
+                                "value": "'\\n            ' + helpers.inject(scope, 'name') + '\\n        '",
+                                "fields": [
+                                    "name"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "tag": "#text",
+                        "value": "'\\n    '"
+                    }
+                ]
+            },
+            {
+                "tag": "#text",
+                "value": "'\\n'"
+            }
+        ]
+    }
+]
