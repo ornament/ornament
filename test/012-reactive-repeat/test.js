@@ -7,7 +7,7 @@ var runtime = require('../../runtime.js');
 var Collection = require('backbone').Collection;
 
 test('reactive display of items in collections', function(t) {
-    t.plan(57);
+    t.plan(58);
 
     var compiled = compiler(fs.readFileSync(__dirname + '/list.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
@@ -21,13 +21,16 @@ test('reactive display of items in collections', function(t) {
     runtime.settings.listen = require('../../binding-backbone.js').listen;
     runtime.settings.collection = require('../../binding-backbone.js').collection;
     runtime.settings.listenToCollection = function listenToCollection(items, add, remove) {
-        // TODO: remove, reset, sort
+        // TODO: sort
         items.on('add', function(item) {
             var index = _.indexOf(items.models, item);
             add(item, index);
         });
         items.on('remove', function(item, collection, options) {
             remove(item, options.index);
+        });
+        items.on('reset', function(collection, options) {
+            _.forEachRight(options.previousModels, remove);
         });
     };
 
@@ -147,4 +150,9 @@ test('reactive display of items in collections', function(t) {
     el = el.childNodes[0];
     t.equal(el.nodeName.toLowerCase(), '#text');
     t.equal(el.nodeValue, '\n            Zulu\n        ');
+
+    data.people.reset();
+
+    kids = children(children(tree)[0]);
+    t.equal(kids.length, 0);
 });
