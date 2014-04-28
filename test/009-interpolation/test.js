@@ -10,9 +10,11 @@ test('basic string interpolation', function(t) {
     var compiled = compiler(fs.readFileSync(__dirname + '/interpolation.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
-    runtime.settings = {
-        document: jsdom('')
-    };
+    try {
+        runtime.settings = { document: document };
+    } catch (e) {
+        runtime.settings = { document: jsdom('') };
+    }
     var data = {
         first: 'John',
         last: 'Doe'

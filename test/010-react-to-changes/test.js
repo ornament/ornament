@@ -12,11 +12,13 @@ test('reactive templates', function(t) {
     var compiled = compiler(fs.readFileSync(__dirname + '/interpolation.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
-    runtime.settings = {
-        document: jsdom(''),
-        inject: require('../../binding-backbone.js').read,
-        listen: require('../../binding-backbone.js').listen
-    };
+    try {
+        runtime.settings = { document: document };
+    } catch (e) {
+        runtime.settings = { document: jsdom('') };
+    }
+    runtime.settings.inject = require('../../binding-backbone.js').read;
+    runtime.settings.listen = require('../../binding-backbone.js').listen;
     var data = new Model();
     var tree = runtime(compiled, data);
 

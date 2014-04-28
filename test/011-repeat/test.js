@@ -11,11 +11,13 @@ test('repeat items in collections', function(t) {
     var compiled = compiler(fs.readFileSync(__dirname + '/list.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
-    runtime.settings = {
-        document: jsdom(''),
-        inject: require('../../binding-backbone.js').read,
-        collection: require('../../binding-backbone.js').collection
-    };
+    try {
+        runtime.settings = { document: document };
+    } catch (e) {
+        runtime.settings = { document: jsdom('') };
+    }
+    runtime.settings.inject = require('../../binding-backbone.js').read;
+    runtime.settings.collection = require('../../binding-backbone.js').collection;
     var data = {
         people: new Collection()
     };

@@ -10,9 +10,11 @@ test('basic text node parsing', function(t) {
     var compiled = compiler(fs.readFileSync(__dirname + '/text.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
-    runtime.settings = {
-        document: jsdom('')
-    };
+    try {
+        runtime.settings = { document: document };
+    } catch (e) {
+        runtime.settings = { document: jsdom('') };
+    }
     var tree = runtime(compiled);
     t.equal(tree.childNodes.length, 1);
     t.equal(tree.childNodes[0].nodeName.toLocaleLowerCase(), '#text');

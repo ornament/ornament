@@ -19,7 +19,6 @@ TODO
 #TODO
 * Extract event listener logic and pair with template change events, i.e. 'ornament-bind-*' (example: 'ornament-bind-backbone')
 * Figure out how to handle mixed models (e.g. POJO + Backbone.Model). Possibly sniff types somehow?
-* Run tests in browser via testling
 * Interpolation in attributes
 * `if` attribute (should this include interpolation? if="{{condition}}" vs. if="condition")
 * Reactive `repeat` support
@@ -27,3 +26,4 @@ TODO
 * Rename `inject`
 * Throw descriptive message if `document` is missing, linking to Node.js usage docs
 * Reduce usage of external dependencies (e.g. reduce `lodash` to specific methods if is saves runtime space)
+* Code coverage

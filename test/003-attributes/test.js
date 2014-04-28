@@ -11,10 +11,12 @@ test('parse nodes with attributes', function(t) {
     var compiled = compiler(fs.readFileSync(__dirname + '/attributes.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
 
-    runtime.settings = {
-        document: jsdom(''),
-        inject: require('../../binding-backbone.js').read
-    };
+    try {
+        runtime.settings = { document: document };
+    } catch (e) {
+        runtime.settings = { document: jsdom('') };
+    }
+    runtime.settings.inject = require('../../binding-backbone.js').read;
     var data = new Model();
     var tree = runtime(compiled, data);
 
