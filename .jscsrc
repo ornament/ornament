@@ -37,7 +37,7 @@
     },
     "disallowMultipleVarDecl": true,
     "requireBlocksOnNewline": 1,
-    //"disallowPaddingNewlinesInBlocks": true, Bugs out on comments, also, typo in README
+    "disallowPaddingNewlinesInBlocks": true,
     "disallowEmptyBlocks": true,
     "disallowSpacesInsideArrayBrackets": true,
     "disallowSpacesInsideParentheses": true,

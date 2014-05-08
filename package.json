@@ -22,7 +22,7 @@
     "lodash": "^2.4.1"
   },
   "devDependencies": {
-    "jscs": "mdevils/node-jscs",
+    "jscs": "^1.4.3",
     "jshint": "^2.5.0",
     "jsdom": "^0.10.5",
     "faucet": "0.0.1",
