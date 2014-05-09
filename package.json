@@ -1,7 +1,7 @@
 {
-  "name": "template",
+  "name": "ornament",
   "version": "0.0.0",
-  "description": "TBA",
+  "description": "A template which just works.",
   "main": "index.js",
   "scripts": {
     "validate": "jshint *.js test/**/*.js && jscs *.js test",
@@ -11,12 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CMTegner/template.git"
+    "url": "https://github.com/ornament/ornament.git"
   },
   "author": "Christian Maughan Tegnér",
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/CMTegner/template/issues"
+    "url": "https://github.com/ornament/ornament/issues"
   },
   "dependencies": {
     "lodash": "^2.4.1"
