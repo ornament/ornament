@@ -9,6 +9,9 @@
     "testling": "browserify -i node_modules/jsdom/lib/jsdom.js -t brfs test/**/*.js | testling",
     "test": "npm run validate && npm run unit && npm run testling"
   },
+  "bin": {
+    "ornament": "cli/ornament.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ornament/ornament.git"
@@ -19,7 +22,9 @@
     "url": "https://github.com/ornament/ornament/issues"
   },
   "dependencies": {
-    "lodash": "^2.4.1"
+    "lodash": "^2.4.1",
+    "nomnom": "^1.6.2",
+    "mkdirp": "^0.5.0"
   },
   "devDependencies": {
     "jscs": "^1.4.3",
