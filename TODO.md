@@ -1,6 +1,7 @@
 #TODO
 * Warn when encountering closing tag for void elements
 * Collapse subsequent text nodes
+* Option to remove text nodes containing only whitespace
 * Create serializable AST from markup, dump to file(?), then parse and create actual dom once template is rendered
 * Decide a baseline compatibility threshold (ES5/IE9?)
 * Figure out how to parse expressions (eval/function, AST (esprima.org), custom?)
@@ -14,3 +15,4 @@
 * Throw descriptive message if `document` is missing, linking to Node.js usage docs
 * Reduce usage of external dependencies (e.g. reduce `lodash` to specific methods if is saves runtime space)
 * Code coverage
+* Handle comments in markup (don't barf on parse, + option to omit from output)
