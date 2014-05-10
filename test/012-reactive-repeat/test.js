@@ -7,7 +7,7 @@ var runtime = require('../../runtime.js');
 var Collection = require('backbone').Collection;
 
 test('reactive display of items in collections', function(t) {
-    t.plan(110);
+    t.plan(124);
 
     var compiled = compiler(fs.readFileSync(__dirname + '/list.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
@@ -51,6 +51,7 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     t.equal(el.getAttribute('class'), 'nav-item');
+    t.equal(el.getAttribute('data-name'), 'Drake');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -68,6 +69,7 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     t.equal(el.getAttribute('class'), 'nav-item');
+    t.equal(el.getAttribute('data-name'), 'Bell');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -78,6 +80,7 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     t.equal(el.getAttribute('class'), 'nav-item');
+    t.equal(el.getAttribute('data-name'), 'Drake');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -95,6 +98,7 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     t.equal(el.getAttribute('class'), 'nav-item');
+    t.equal(el.getAttribute('data-name'), 'Bell');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -105,6 +109,7 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     t.equal(el.getAttribute('class'), 'nav-item');
+    t.equal(el.getAttribute('data-name'), 'Drake');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -115,6 +120,7 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     t.equal(el.getAttribute('class'), 'nav-item');
+    t.equal(el.getAttribute('data-name'), 'Zulu');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -138,6 +144,7 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     t.equal(el.getAttribute('class'), 'nav-item');
+    t.equal(el.getAttribute('data-name'), 'Zulu');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -148,6 +155,7 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     t.equal(el.getAttribute('class'), 'nav-item');
+    t.equal(el.getAttribute('data-name'), 'Drake');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -158,6 +166,7 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     t.equal(el.getAttribute('class'), 'nav-item');
+    t.equal(el.getAttribute('data-name'), 'Bell');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -174,6 +183,7 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     t.equal(el.getAttribute('class'), 'nav-item');
+    t.equal(el.getAttribute('data-name'), 'Bell');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -184,6 +194,7 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     t.equal(el.getAttribute('class'), 'nav-item');
+    t.equal(el.getAttribute('data-name'), 'Drake');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -194,6 +205,7 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     t.equal(el.getAttribute('class'), 'nav-item');
+    t.equal(el.getAttribute('data-name'), 'Zulu');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -209,6 +221,7 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     t.equal(el.getAttribute('class'), 'nav-item');
+    t.equal(el.getAttribute('data-name'), 'Drake');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -219,6 +232,7 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
     t.equal(el.getAttribute('class'), 'nav-item');
+    t.equal(el.getAttribute('data-name'), 'Zulu');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
