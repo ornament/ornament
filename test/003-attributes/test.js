@@ -6,7 +6,7 @@ var runtime = require('../../runtime.js');
 var Model = require('backbone').Model;
 
 test('parse nodes with attributes', function(t) {
-    t.plan(27);
+    t.plan(32);
 
     var compiled = compiler(fs.readFileSync(__dirname + '/attributes.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
@@ -17,13 +17,17 @@ test('parse nodes with attributes', function(t) {
         runtime.settings = { document: jsdom('') };
     }
     runtime.settings.inject = require('../../binding-backbone.js').read;
-    var data = new Model();
+    runtime.settings.listen = require('../../binding-backbone.js').listen;
+    var data = new Model({
+        name: 'bar'
+    });
     var tree = runtime(compiled, data);
 
     var el = tree.childNodes[0];
     t.equal(el.nodeName.toLowerCase(), 'input');
     t.equal(el.getAttribute('type'), 'text');
     t.equal(el.getAttribute('value'), 'foo');
+    t.equal(el.getAttribute('data-role'), 'bar');
     t.equal(el.childNodes.length, 0);
     el = tree.childNodes[1];
     t.equal(el.nodeName.toLowerCase(), '#text');
@@ -53,4 +57,12 @@ test('parse nodes with attributes', function(t) {
     t.equal(el.childNodes.length, 1);
     t.equal(el.childNodes[0].nodeName.toLowerCase(), '#text');
     t.equal(el.childNodes[0].nodeValue, '\n    This is a message. Read me.\n');
+
+    data.set('name', 42);
+
+    el = tree.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), 'input');
+    t.equal(el.getAttribute('type'), 'text');
+    t.equal(el.getAttribute('value'), 'foo');
+    t.equal(el.getAttribute('data-role'), '42');
 });

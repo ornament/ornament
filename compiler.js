@@ -12,8 +12,7 @@ function ensureAttributes(element) {
     }
 }
 
-function createTextNode(parent, text) {
-    if (!text) { return; }
+function interpolate(text) {
     // TODO: Not sure about the linebreak fix, probably need to make a generic fix for escape characters
     var value = '\'' + text.replace(/\n/g, '\\n').replace(/'/g, '\\\'') + '\'';
     var fields = [];
@@ -24,14 +23,20 @@ function createTextNode(parent, text) {
     value = value.replace(/^'' \+ /, '');
     value = value.replace(/ \+ ''$/, '');
     value = value.replace(/\+ '' \+/g, '+');
-    ensureChildren(parent);
-    var element = {
-        tag: '#text',
+    var result = {
         value: value
     };
     if (fields.length > 0) {
-        element.fields = fields;
+        result.fields = fields;
     }
+    return result;
+}
+
+function createTextNode(parent, text) {
+    if (!text) { return; }
+    var element = interpolate(text);
+    element.tag = '#text';
+    ensureChildren(parent);
     parent.children.push(element);
 }
 
@@ -120,7 +125,12 @@ function parse(parent, chars, i) {
                         // TODO: More tests
                         throw new Error('Parse error: multiple \'' + attributeName + '\' attributes detected');
                     }
-                    el.attributes[attributeName] = attributeValue;
+                    var interpolated = interpolate(attributeValue);
+                    if (interpolated.fields) {
+                        el.attributes[attributeName] = interpolated;
+                    } else {
+                        el.attributes[attributeName] = attributeValue;
+                    }
                 }
                 // Track to next non-whitespace character
                 while (/\s/.test(c)) {

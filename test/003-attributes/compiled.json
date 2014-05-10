@@ -2,6 +2,12 @@
     "tag": "input",
     "attributes": {
         "type": "text",
+        "data-role": {
+            "value": "helpers.inject(scope, 'name')",
+            "fields": [
+                "name"
+            ]
+        },
         "value": "foo"
     }
 }, {

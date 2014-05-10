@@ -51,7 +51,20 @@ function createElement(root, element, scope, config) {
                     el._if = new Function('return ' + value);
                     /* jshint evil: false */
                 } else {
-                    el.setAttribute(attr, value);
+                    if (_.isString(value)) {
+                        el.setAttribute(attr, value);
+                    } else {
+                        /* jshint evil: true */
+                        var fn = new Function('helpers', 'scope', 'return ' + value.value);
+                        /* jshint evil: false */
+                        el.setAttribute(attr, fn(config, scope));
+                        if (config.listen) {
+                            var onChange = function(helpers, scope) {
+                                el.setAttribute(attr, fn(helpers, scope));
+                            };
+                            config.listen(onChange, scope, value.fields, config);
+                        }
+                    }
                 }
             });
             createElements(el, element.children, scope, config);
