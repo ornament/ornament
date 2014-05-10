@@ -1,11 +1,15 @@
 var _ = require('lodash');
 
+function createValueFn(value) {
+    /* jshint evil: true */
+    return new Function('helpers', 'scope', 'return ' + value);
+    /* jshint evil: false */
+}
+
 function createElement(root, element, scope, config) {
     var el;
     if (element.tag === '#text') {
-        /* jshint evil: true */
-        var fn = new Function('helpers', 'scope', 'return ' + element.value);
-        /* jshint evil: false */
+        var fn = createValueFn(element.value);
         el = config.document.createTextNode(fn(config, scope));
         if (config.listen) {
             el.fn = function(helpers, scope) {
@@ -54,9 +58,7 @@ function createElement(root, element, scope, config) {
                     if (_.isString(value)) {
                         el.setAttribute(attr, value);
                     } else {
-                        /* jshint evil: true */
-                        var fn = new Function('helpers', 'scope', 'return ' + value.value);
-                        /* jshint evil: false */
+                        var fn = createValueFn(value.value);
                         el.setAttribute(attr, fn(config, scope));
                         if (config.listen) {
                             var onChange = function(helpers, scope) {
