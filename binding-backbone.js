@@ -48,6 +48,7 @@ function listenToCollection(items, add, remove) {
     });
     items.on('reset', function(collection, options) {
         _.forEachRight(options.previousModels, remove);
+        collection.forEach(add);
     });
     items.on('sort', function(collection) {
         // TODO: Optimize
