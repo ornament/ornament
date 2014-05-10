@@ -15,3 +15,6 @@ TODO
 
 #Discussion
 * Should there be smart logic for handling assigning listeners to events in the template (example: '<button onclick="doSomething()">Submit</button>')
+
+#Logo
+O (Oxygen) + Rn (Radon) inside hexagon (node style)
