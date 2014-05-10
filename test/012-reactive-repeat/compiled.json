@@ -11,8 +11,9 @@
             },
             {
                 "tag": "li",
+                "repeat": "people",
                 "attributes": {
-                    "repeat": "people"
+                    "class": "nav-item"
                 },
                 "children": [
                     {

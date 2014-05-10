@@ -109,12 +109,19 @@ function parse(parent, chars, i) {
                         }
                     }
                 }
-                ensureAttributes(el);
-                if (el.attributes.hasOwnProperty(attributeName)) {
-                    // TODO: More tests
-                    throw new Error('Parse error: multiple \'' + attributeName + '\' attributes detected');
+                if (attributeName === 'repeat') {
+                    if (el.hasOwnProperty(attributeName)) {
+                        throw new Error('Parse error: multiple \'' + attributeName + '\' attributes detected');
+                    }
+                    el.repeat = attributeValue;
+                } else {
+                    ensureAttributes(el);
+                    if (el.attributes.hasOwnProperty(attributeName)) {
+                        // TODO: More tests
+                        throw new Error('Parse error: multiple \'' + attributeName + '\' attributes detected');
+                    }
+                    el.attributes[attributeName] = attributeValue;
                 }
-                el.attributes[attributeName] = attributeValue;
                 // Track to next non-whitespace character
                 while (/\s/.test(c)) {
                     i++;

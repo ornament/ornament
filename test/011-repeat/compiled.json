@@ -8,9 +8,7 @@
             },
             {
                 "tag": "li",
-                "attributes": {
-                    "repeat": "people"
-                },
+                "repeat": "people",
                 "children": [
                     {
                         "tag": "#text",

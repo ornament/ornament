@@ -7,7 +7,7 @@ var runtime = require('../../runtime.js');
 var Collection = require('backbone').Collection;
 
 test('reactive display of items in collections', function(t) {
-    t.plan(96);
+    t.plan(110);
 
     var compiled = compiler(fs.readFileSync(__dirname + '/list.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
@@ -50,6 +50,7 @@ test('reactive display of items in collections', function(t) {
     el = kids[0];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'nav-item');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -66,6 +67,7 @@ test('reactive display of items in collections', function(t) {
     el = kids[0];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'nav-item');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -75,6 +77,7 @@ test('reactive display of items in collections', function(t) {
     el = kids[1];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'nav-item');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -91,6 +94,7 @@ test('reactive display of items in collections', function(t) {
     el = kids[0];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'nav-item');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -100,6 +104,7 @@ test('reactive display of items in collections', function(t) {
     el = kids[1];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'nav-item');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -109,6 +114,7 @@ test('reactive display of items in collections', function(t) {
     el = kids[2];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'nav-item');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -131,6 +137,7 @@ test('reactive display of items in collections', function(t) {
     el = kids[0];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'nav-item');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -140,6 +147,7 @@ test('reactive display of items in collections', function(t) {
     el = kids[1];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'nav-item');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -149,6 +157,7 @@ test('reactive display of items in collections', function(t) {
     el = kids[2];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'nav-item');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -164,6 +173,7 @@ test('reactive display of items in collections', function(t) {
     el = kids[0];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'nav-item');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -173,6 +183,7 @@ test('reactive display of items in collections', function(t) {
     el = kids[1];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'nav-item');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -182,6 +193,7 @@ test('reactive display of items in collections', function(t) {
     el = kids[2];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'nav-item');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -196,6 +208,7 @@ test('reactive display of items in collections', function(t) {
     el = kids[0];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'nav-item');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');
@@ -205,6 +218,7 @@ test('reactive display of items in collections', function(t) {
     el = kids[1];
     t.equal(el.nodeName.toLowerCase(), 'li');
     t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'nav-item');
     el = children(el)[0];
     t.equal(el.nodeName.toLowerCase(), 'a');
     t.equal(el.getAttribute('href'), '#');

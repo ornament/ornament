@@ -14,48 +14,46 @@ function createElement(root, element, scope, config) {
             config.listen(el.fn, scope, element.fields, config);
         }
     } else {
-        el = config.document.createElement(element.tag);
-        _.forEach(element.attributes, function(value, attr) {
-            if (attr === 'if') {
-                /* jshint evil: true */
-                el._if = new Function('return ' + value);
-                /* jshint evil: false */
-            } else if (attr === 'repeat') {
-                var collection = config.inject(scope, value);
-                var items = config.collection(collection);
-                if (_.isFunction(config.listenToCollection)) {
-                    el.add = function(item, index) {
-                        var el = createElement(root, elm, item, config);
-                        if (el) {
-                            var children = root.children;
-                            // TODO: Needs to not be affected by sibling's `if` result
-                            if (index === children.length) {
-                                root.appendChild(el);
-                            } else {
-                                root.insertBefore(el, children[index]);
-                            }
-                        }
-                    };
-                    el.remove = function(item, index) {
-                        // TODO: Needs to keep reference to actual DOM node
-                        root.removeChild(root.children[index]);
-                    };
-                    config.listenToCollection(collection, el.add, el.remove);
-                }
-                var elm = _.cloneDeep(element); // TODO: Lift `repeat` to top level
-                delete elm.attributes.repeat;
-                _.forEach(items, function(item) {
+        if (element.repeat) {
+            var collection = config.inject(scope, element.repeat);
+            var items = config.collection(collection);
+            if (_.isFunction(config.listenToCollection)) {
+                var add = function(item, index) {
                     var el = createElement(root, elm, item, config);
                     if (el) {
-                        root.appendChild(el);
+                        var children = root.children;
+                        // TODO: Needs to not be affected by sibling's `if` result
+                        if (index === children.length) {
+                            root.appendChild(el);
+                        } else {
+                            root.insertBefore(el, children[index]);
+                        }
                     }
-                });
-                el = undefined;
-            } else {
-                el.setAttribute(attr, value);
+                };
+                var remove = function(item, index) {
+                    // TODO: Needs to keep reference to actual DOM node
+                    root.removeChild(root.children[index]);
+                };
+                config.listenToCollection(collection, add, remove);
             }
-        });
-        if (el) {
+            var elm = _.omit(element, 'repeat');
+            _.forEach(items, function(item) {
+                var el = createElement(root, elm, item, config);
+                if (el) {
+                    root.appendChild(el);
+                }
+            });
+        } else {
+            el = config.document.createElement(element.tag);
+            _.forEach(element.attributes, function(value, attr) {
+                if (attr === 'if') {
+                    /* jshint evil: true */
+                    el._if = new Function('return ' + value);
+                    /* jshint evil: false */
+                } else {
+                    el.setAttribute(attr, value);
+                }
+            });
             createElements(el, element.children, scope, config);
         }
     }
