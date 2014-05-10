@@ -1,0 +1,92 @@
+[
+    {
+        "tag": "ul",
+        "children": [
+            {
+                "value": "\n    ",
+                "tag": "#text"
+            },
+            {
+                "tag": "li",
+                "repeat": "people",
+                "children": [
+                    {
+                        "value": "'\\n        ' + helpers.inject(scope, 'name') + '\\n    '",
+                        "fields": [
+                            "name"
+                        ],
+                        "tag": "#text"
+                    }
+                ]
+            },
+            {
+                "value": "\n    ",
+                "tag": "#text"
+            },
+            {
+                "tag": "li",
+                "children": [
+                    {
+                        "value": "\n        + Add person\n    ",
+                        "tag": "#text"
+                    }
+                ]
+            },
+            {
+                "value": "\n",
+                "tag": "#text"
+            }
+        ]
+    },
+    {
+        "value": "\n",
+        "tag": "#text"
+    },
+    {
+        "tag": "select",
+        "children": [
+            {
+                "value": "\n    ",
+                "tag": "#text"
+            },
+            {
+                "tag": "option",
+                "children": [
+                    {
+                        "value": "Select person...",
+                        "tag": "#text"
+                    }
+                ]
+            },
+            {
+                "value": "\n    ",
+                "tag": "#text"
+            },
+            {
+                "tag": "option",
+                "repeat": "people",
+                "attributes": {
+                    "data-person": {
+                        "value": "helpers.inject(scope, 'name')",
+                        "fields": [
+                            "name"
+                        ]
+                    }
+                },
+                "children": [
+                    {
+                        "value": "'\\n        ' + helpers.inject(scope, 'name') + '\\n    '",
+                        "fields": [
+                            "name"
+                        ],
+                        "tag": "#text"
+                    }
+                ]
+            },
+            {
+                "value": "\n",
+                "tag": "#text"
+            }
+        ]
+    }
+]

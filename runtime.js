@@ -23,6 +23,7 @@ function createElement(root, element, scope, config) {
         }
     } else {
         if (element.repeat) {
+            var indexOffset = root.children.length;
             var collection = config.inject(scope, element.repeat);
             var items = config.collection(collection);
             if (_.isFunction(config.listenToCollection)) {
@@ -30,6 +31,7 @@ function createElement(root, element, scope, config) {
                     var el = createElement(root, elm, item, config);
                     if (el) {
                         var children = root.children;
+                        index += indexOffset;
                         // TODO: Needs to not be affected by sibling's `if` result
                         if (index === children.length) {
                             root.appendChild(el);
@@ -39,6 +41,7 @@ function createElement(root, element, scope, config) {
                     }
                 };
                 var remove = function(item, index) {
+                    index += indexOffset;
                     // TODO: Needs to keep reference to actual DOM node
                     root.removeChild(root.children[index]);
                 };
