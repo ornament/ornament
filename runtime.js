@@ -9,13 +9,17 @@ function createValueFn(value) {
 function createElement(root, element, scope, config) {
     var el;
     if (element.tag === '#text') {
-        var fn = createValueFn(element.value);
-        el = config.document.createTextNode(fn(config, scope));
-        if (config.listen) {
-            el.fn = function(helpers, scope) {
-                el.nodeValue = fn(helpers, scope);
-            };
-            config.listen(el.fn, scope, element.fields, config);
+        if (element.fields) {
+            var fn = createValueFn(element.value);
+            el = config.document.createTextNode(fn(config, scope));
+            if (config.listen) {
+                el.fn = function(helpers, scope) {
+                    el.nodeValue = fn(helpers, scope);
+                };
+                config.listen(el.fn, scope, element.fields, config);
+            }
+        } else {
+            el = config.document.createTextNode(element.value);
         }
     } else {
         if (element.repeat) {

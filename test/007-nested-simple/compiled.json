@@ -7,7 +7,7 @@
         "children": [
             {
                 "tag": "#text",
-                "value": "'\\n    '"
+                "value": "\n    "
             },
             {
                 "tag": "span",
@@ -17,13 +17,13 @@
                 "children": [
                     {
                         "tag": "#text",
-                        "value": "'\\n        FUBAR\\n    '"
+                        "value": "\n        FUBAR\n    "
                     }
                 ]
             },
             {
                 "tag": "#text",
-                "value": "'\\n'"
+                "value": "\n"
             }
         ]
     }

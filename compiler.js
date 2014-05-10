@@ -34,7 +34,15 @@ function interpolate(text) {
 
 function createTextNode(parent, text) {
     if (!text) { return; }
-    var element = interpolate(text);
+    var interpolated = interpolate(text);
+    var element;
+    if (interpolated.fields) {
+        element = interpolated;
+    } else {
+        element = {
+            value: text
+        };
+    }
     element.tag = '#text';
     ensureChildren(parent);
     parent.children.push(element);

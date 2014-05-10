@@ -12,7 +12,7 @@
     }
 }, {
     "tag": "#text",
-    "value": "'\\n'"
+    "value": "\n"
 }, {
     "tag": "textarea",
     "attributes": {
@@ -23,7 +23,7 @@
     }
 }, {
     "tag": "#text",
-    "value": "'\\n'"
+    "value": "\n"
 }, {
     "tag": "button",
     "attributes": {
@@ -31,11 +31,11 @@
     },
     "children": [{
         "tag": "#text",
-        "value": "'Click me!'"
+        "value": "Click me!"
     }]
 }, {
     "tag": "#text",
-    "value": "'\\n'"
+    "value": "\n"
 }, {
     "tag": "div",
     "attributes": {
@@ -43,6 +43,6 @@
     },
     "children": [{
         "tag": "#text",
-        "value": "'\\n    This is a message. Read me.\\n'"
+        "value": "\n    This is a message. Read me.\n"
     }]
 }]

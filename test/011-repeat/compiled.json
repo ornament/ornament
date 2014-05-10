@@ -4,7 +4,7 @@
         "children": [
             {
                 "tag": "#text",
-                "value": "'\\n    '"
+                "value": "\n    "
             },
             {
                 "tag": "li",
@@ -21,7 +21,7 @@
             },
             {
                 "tag": "#text",
-                "value": "'\\n'"
+                "value": "\n"
             }
         ]
     }

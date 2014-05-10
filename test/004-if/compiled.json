@@ -7,7 +7,7 @@
         "children": [
             {
                 "tag": "#text",
-                "value": "'Foo'"
+                "value": "Foo"
             }
         ]
     }

@@ -7,13 +7,13 @@
         "children": [
             {
                 "tag": "#text",
-                "value": "'Number'"
+                "value": "Number"
             }
         ]
     },
     {
         "tag": "#text",
-        "value": "'\\n'"
+        "value": "\n"
     },
     {
         "tag": "input",
@@ -25,7 +25,7 @@
     },
     {
         "tag": "#text",
-        "value": "'\\n'"
+        "value": "\n"
     },
     {
         "tag": "button",
@@ -35,7 +35,7 @@
         "children": [
             {
                 "tag": "#text",
-                "value": "'Clicky'"
+                "value": "Clicky"
             }
         ]
     }

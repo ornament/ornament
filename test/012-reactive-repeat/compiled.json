@@ -7,7 +7,7 @@
         "children": [
             {
                 "tag": "#text",
-                "value": "'\\n    '"
+                "value": "\n    "
             },
             {
                 "tag": "li",
@@ -24,7 +24,7 @@
                 "children": [
                     {
                         "tag": "#text",
-                        "value": "'\\n        '"
+                        "value": "\n        "
                     },
                     {
                         "tag": "a",
@@ -43,13 +43,13 @@
                     },
                     {
                         "tag": "#text",
-                        "value": "'\\n    '"
+                        "value": "\n    "
                     }
                 ]
             },
             {
                 "tag": "#text",
-                "value": "'\\n'"
+                "value": "\n"
             }
         ]
     }
