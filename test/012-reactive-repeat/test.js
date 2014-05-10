@@ -7,7 +7,7 @@ var runtime = require('../../runtime.js');
 var Collection = require('backbone').Collection;
 
 test('reactive display of items in collections', function(t) {
-    t.plan(58);
+    t.plan(96);
 
     var compiled = compiler(fs.readFileSync(__dirname + '/list.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
@@ -85,6 +85,79 @@ test('reactive display of items in collections', function(t) {
     data.people.add({
         name: 'Zulu'
     });
+
+    kids = children(children(tree)[0]);
+    t.equal(kids.length, 3);
+    el = kids[0];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    el = children(el)[0];
+    t.equal(el.nodeName.toLowerCase(), 'a');
+    t.equal(el.getAttribute('href'), '#');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, '\n            Bell\n        ');
+    el = kids[1];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    el = children(el)[0];
+    t.equal(el.nodeName.toLowerCase(), 'a');
+    t.equal(el.getAttribute('href'), '#');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, '\n            Drake\n        ');
+    el = kids[2];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    el = children(el)[0];
+    t.equal(el.nodeName.toLowerCase(), 'a');
+    t.equal(el.getAttribute('href'), '#');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, '\n            Zulu\n        ');
+
+    data.people.comparator = function(a, b) {
+        a = a.get('name');
+        b = b.get('name');
+        if (a === b) {
+            return 0;
+        }
+        return a < b ? 1 : -1;
+    };
+    data.people.sort();
+
+    kids = children(children(tree)[0]);
+    t.equal(kids.length, 3);
+    el = kids[0];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    el = children(el)[0];
+    t.equal(el.nodeName.toLowerCase(), 'a');
+    t.equal(el.getAttribute('href'), '#');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, '\n            Zulu\n        ');
+    el = kids[1];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    el = children(el)[0];
+    t.equal(el.nodeName.toLowerCase(), 'a');
+    t.equal(el.getAttribute('href'), '#');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, '\n            Drake\n        ');
+    el = kids[2];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    el = children(el)[0];
+    t.equal(el.nodeName.toLowerCase(), 'a');
+    t.equal(el.getAttribute('href'), '#');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, '\n            Bell\n        ');
+
+    data.people.comparator = 'name';
+    data.people.sort();
 
     kids = children(children(tree)[0]);
     t.equal(kids.length, 3);

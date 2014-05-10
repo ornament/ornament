@@ -39,7 +39,6 @@ function listen(cb, scope, attributes, helpers) {
 }
 
 function listenToCollection(items, add, remove) {
-    // TODO: sort
     items.on('add', function(item) {
         var index = _.indexOf(items.models, item);
         add(item, index);
@@ -49,6 +48,11 @@ function listenToCollection(items, add, remove) {
     });
     items.on('reset', function(collection, options) {
         _.forEachRight(options.previousModels, remove);
+    });
+    items.on('sort', function(collection) {
+        // TODO: Optimize
+        _.forEachRight(collection.models, remove);
+        collection.forEach(add);
     });
 }
 
