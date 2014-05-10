@@ -38,6 +38,21 @@ function listen(cb, scope, attributes, helpers) {
     // TODO: Tear down when element disappears
 }
 
+function listenToCollection(items, add, remove) {
+    // TODO: sort
+    items.on('add', function(item) {
+        var index = _.indexOf(items.models, item);
+        add(item, index);
+    });
+    items.on('remove', function(item, collection, options) {
+        remove(item, options.index);
+    });
+    items.on('reset', function(collection, options) {
+        _.forEachRight(options.previousModels, remove);
+    });
+}
+
 module.exports.read = read;
 module.exports.collection = collection;
+module.exports.listenToCollection = listenToCollection;
 module.exports.listen = listen;

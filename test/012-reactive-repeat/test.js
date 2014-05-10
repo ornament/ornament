@@ -20,19 +20,7 @@ test('reactive display of items in collections', function(t) {
     runtime.settings.inject = require('../../binding-backbone.js').read;
     runtime.settings.listen = require('../../binding-backbone.js').listen;
     runtime.settings.collection = require('../../binding-backbone.js').collection;
-    runtime.settings.listenToCollection = function listenToCollection(items, add, remove) {
-        // TODO: sort
-        items.on('add', function(item) {
-            var index = _.indexOf(items.models, item);
-            add(item, index);
-        });
-        items.on('remove', function(item, collection, options) {
-            remove(item, options.index);
-        });
-        items.on('reset', function(collection, options) {
-            _.forEachRight(options.previousModels, remove);
-        });
-    };
+    runtime.settings.listenToCollection = require('../../binding-backbone.js').listenToCollection;
 
     function children(element) {
         return _.reject(element.childNodes, function(node) {
