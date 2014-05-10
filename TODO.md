@@ -7,9 +7,7 @@
 * Figure out how to parse expressions (eval/function, AST (esprima.org), custom?)
 * Extract event listener logic and pair with template change events, i.e. 'ornament-bind-*' (example: 'ornament-bind-backbone')
 * Figure out how to handle mixed models (e.g. POJO + Backbone.Model). Possibly sniff types somehow?
-* Interpolation in attributes
 * `if` attribute (should this include interpolation? if="{{condition}}" vs. if="condition")
-* Reactive `repeat` support
 * Ability to reference parent scope (needed for `repeat`)
 * Rename `inject`
 * Throw descriptive message if `document` is missing, linking to Node.js usage docs
