@@ -14,3 +14,8 @@
 * Reduce usage of external dependencies (e.g. reduce `lodash` to specific methods if is saves runtime space)
 * Code coverage
 * Handle comments in markup (don't barf on parse, + option to omit from output)
+* Escape HTML entities in injected content (opt in/out?)
+* Batch/queue change events and execute on next tick (+ option to force immediate for testing; consider promise/callback for notifications about changes to the DOM)
+* Handle focus somehow, possibly via <div focus="message.length === 0">
+* Decide which template file extension to use (.orn?)
+* Add 'filters' (mutators/modifiers/whatever), e.g. {{timestampString | moment}}
