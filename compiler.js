@@ -17,6 +17,7 @@ function interpolate(text) {
     var value = '\'' + text.replace(/\n/g, '\\n').replace(/'/g, '\\\'') + '\'';
     var fields = [];
     value = value.replace(/\{\{([^}]*)\}\}/g, function(matched, attr) {
+        attr = attr.trim();
         fields.push(attr);
         return '\' + helpers.inject(scope, \'' + attr + '\') + \'';
     });
