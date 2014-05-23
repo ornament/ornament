@@ -175,7 +175,7 @@ function parse(parent, chars, i) {
             text = '';
             i++;
             var int = '';
-            while((c = chars[i++]) !== '}') {
+            while ((c = chars[i++]) !== '}') {
                 int += c;
             }
             i++;
