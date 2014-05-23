@@ -11,11 +11,19 @@
                 "repeat": "people",
                 "children": [
                     {
-                        "value": "'\\n        ' + helpers.inject(scope, 'name') + '\\n    '",
+                        "tag": "#text",
+                        "value": "\n        "
+                    },
+                    {
+                        "value": "helpers.inject(scope, 'name')",
                         "fields": [
                             "name"
                         ],
                         "tag": "#text"
+                    },
+                    {
+                        "tag": "#text",
+                        "value": "\n    "
                     }
                 ]
             },
@@ -75,11 +83,19 @@
                 },
                 "children": [
                     {
-                        "value": "'\\n        ' + helpers.inject(scope, 'name') + '\\n    '",
+                        "tag": "#text",
+                        "value": "\n        "
+                    },
+                    {
+                        "tag": "#text",
+                        "value": "helpers.inject(scope, 'name')",
                         "fields": [
                             "name"
-                        ],
-                        "tag": "#text"
+                        ]
+                    },
+                    {
+                        "tag": "#text",
+                        "value": "\n    "
                     }
                 ]
             },

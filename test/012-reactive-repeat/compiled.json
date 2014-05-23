@@ -34,10 +34,18 @@
                         "children": [
                             {
                                 "tag": "#text",
-                                "value": "'\\n            ' + helpers.inject(scope, 'name') + '\\n        '",
+                                "value": "\n            "
+                            },
+                            {
+                                "tag": "#text",
+                                "value": "helpers.inject(scope, 'name')",
                                 "fields": [
                                     "name"
                                 ]
+                            },
+                            {
+                                "tag": "#text",
+                                "value": "\n        "
                             }
                         ]
                     },

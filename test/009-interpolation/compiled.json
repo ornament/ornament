@@ -4,9 +4,19 @@
         "children": [
             {
                 "tag": "#text",
-                "value": "helpers.inject(scope, 'last') + ', ' + helpers.inject(scope, 'first')",
+                "value": "helpers.inject(scope, 'last')",
                 "fields": [
-                    "last",
+                    "last"
+                ]
+            },
+            {
+                "tag": "#text",
+                "value": ", "
+            },
+            {
+                "tag": "#text",
+                "value": "helpers.inject(scope, 'first')",
+                "fields": [
                     "first"
                 ]
             }
@@ -21,44 +31,80 @@
         "children": [
             {
                 "tag": "#text",
-                "value": "'Hello ' + helpers.inject(scope, 'first') + ' ' + helpers.inject(scope, 'last') + '!'",
-                "fields": [
-                    "first",
-                    "last"
-                ]
-            }
-        ]
-    },
-    {
-        "tag": "#text",
-        "value": "\n"
-    },
-    {
-        "tag": "span",
-        "children": [
+                "value": "Hello "
+            },
             {
                 "tag": "#text",
-                "value": "'Username: ' + helpers.inject(scope, 'first') + helpers.inject(scope, 'last')",
-                "fields": [
-                    "first",
-                    "last"
-                ]
-            }
-        ]
-    },
-    {
-        "tag": "#text",
-        "value": "\n"
-    },
-    {
-        "tag": "span",
-        "children": [
-            {
-                "tag": "#text",
-                "value": "'\\'' + helpers.inject(scope, 'first') + '\\''",
+                "value": "helpers.inject(scope, 'first')",
                 "fields": [
                     "first"
                 ]
+            },
+            {
+                "tag": "#text",
+                "value": " "
+            },
+            {
+                "tag": "#text",
+                "value": "helpers.inject(scope, 'last')",
+                "fields": [
+                    "last"
+                ]
+            },
+            {
+                "tag": "#text",
+                "value": "!"
+            }
+        ]
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "span",
+        "children": [
+            {
+                "tag": "#text",
+                "value": "Username: "
+            },
+            {
+                "tag": "#text",
+                "value": "helpers.inject(scope, 'first')",
+                "fields": [
+                    "first"
+                ]
+            },
+            {
+                "tag": "#text",
+                "value": "helpers.inject(scope, 'last')",
+                "fields": [
+                    "last"
+                ]
+            }
+        ]
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "span",
+        "children": [
+            {
+                "tag": "#text",
+                "value": "'"
+            },
+            {
+                "tag": "#text",
+                "value": "helpers.inject(scope, 'first')",
+                "fields": [
+                    "first"
+                ]
+            },
+            {
+                "tag": "#text",
+                "value": "'"
             }
         ]
     }

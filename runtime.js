@@ -67,7 +67,7 @@ function createNodeList(root, element, scope, config, indexOffset) {
         var remove = function(item, index) {
             index += indexOffset;
             // TODO: Needs to keep reference to actual DOM node
-            root.removeChild(root.children[index]);
+            root.removeChild(root.childNodes[index]);
         };
         config.listenToCollection(collection, add, remove);
     }
