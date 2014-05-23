@@ -33,6 +33,24 @@ function interpolate(text) {
     return result;
 }
 
+function createHTMLNode(parent, text) {
+    // TODO: Generate AST via esprima
+    if (text[0] === '=') {
+        text = text.substring(1);
+    } else {
+        createTextNode(parent, '{{' + text + '}}');
+        return;
+    }
+    text = text.trim();
+    var element = {
+        tag: '#html',
+        value: 'helpers.inject(scope, \'' + text + '\')',
+        fields: [text]
+    };
+    ensureChildren(parent);
+    parent.children.push(element);
+}
+
 function createTextNode(parent, text) {
     if (!text) { return; }
     var interpolated = interpolate(text);
@@ -152,6 +170,16 @@ function parse(parent, chars, i) {
                 // End of opening tag, move one level deeper
                 i = parse(el, chars, i);
             }
+        } else if (c === '{' && chars[i] === '{') {
+            createTextNode(parent, text);
+            text = '';
+            i++;
+            var int = '';
+            while((c = chars[i++]) !== '}') {
+                int += c;
+            }
+            i++;
+            createHTMLNode(parent, int);
         } else {
             text += c;
         }

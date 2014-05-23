@@ -11,15 +11,43 @@ function createElement(root, element, scope, config) {
     if (element.tag === '#text') {
         if (element.fields) {
             var fn = createValueFn(element.value);
-            el = config.document.createTextNode(fn(config, scope));
+            el = config.document.createTextNode('');
+            var value = function(helpers, scope) {
+                el.nodeValue = fn(helpers, scope);
+            };
+            value(config, scope);
             if (config.listen) {
-                el.fn = function(helpers, scope) {
-                    el.nodeValue = fn(helpers, scope);
-                };
-                config.listen(el.fn, scope, element.fields, config);
+                config.listen(value, scope, element.fields, config);
             }
         } else {
             el = config.document.createTextNode(element.value);
+        }
+    } else if (element.tag === '#html') {
+        var fn = createValueFn(element.value);
+        var kids;
+        var indexOffset = root.childNodes.length;
+        var container = config.document.createElement('div');
+        var addNodes = function (helpers, scope) {
+            _.forEach(kids, function (node) {
+                root.removeChild(node);
+            });
+            container.innerHTML = fn(helpers, scope);
+            // nodeList is live and only array-like
+            kids = _.toArray(container.childNodes);
+            _.forEach(kids, function (node, index) {
+                var children = root.childNodes;
+                index += indexOffset;
+                // TODO: Needs to not be affected by sibling's `if` result
+                if (index === children.length) {
+                    root.appendChild(node);
+                } else {
+                    root.insertBefore(node, children[index]);
+                }
+            });
+        };
+        addNodes(config, scope);
+        if (config.listen) {
+            config.listen(addNodes, scope, element.fields, config);
         }
     } else {
         if (element.repeat) {

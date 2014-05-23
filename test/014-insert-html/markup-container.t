@@ -1,0 +1,3 @@
+<div>
+    {{label}} {{=markup}}
+</div>

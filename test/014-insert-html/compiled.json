@@ -1,0 +1,29 @@
+[
+    {
+        "tag": "div",
+        "children": [
+            {
+                "tag": "#text",
+                "value": "\n    "
+            },
+            {
+                "tag": "#text",
+                "value": "helpers.inject(scope, 'label')",
+                "fields": ["label"]
+            },
+            {
+                "tag": "#text",
+                "value": " "
+            },
+            {
+                "tag": "#html",
+                "value": "helpers.inject(scope, 'markup')",
+                "fields": ["markup"]
+            },
+            {
+                "tag": "#text",
+                "value": "\n"
+            }
+        ]
+    }
+]
