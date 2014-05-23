@@ -6,10 +6,21 @@ function createValueFn(value) {
     /* jshint evil: false */
 }
 
-function createTextNode(element, scope, config) {
+function insertNode(parent, node, index) {
+    var children = parent.childNodes;
+    // TODO: Needs to not be affected by sibling's `if` result
+    if (index === children.length) {
+        parent.appendChild(node);
+    } else {
+        parent.insertBefore(node, children[index]);
+    }
+}
+
+function createTextNode(root, element, scope, config, indexOffset) {
+    var el;
     if (element.fields) {
         var fn = createValueFn(element.value);
-        var el = config.document.createTextNode('');
+        el = config.document.createTextNode('');
         var value = function(helpers, scope) {
             el.nodeValue = fn(helpers, scope);
         };
@@ -17,16 +28,16 @@ function createTextNode(element, scope, config) {
         if (config.listen) {
             config.listen(value, scope, element.fields, config);
         }
-        return el;
     } else {
-        return config.document.createTextNode(element.value);
+        el = config.document.createTextNode(element.value);
     }
+    insertNode(root, el, indexOffset);
+    return indexOffset + 1;
 }
 
-function createHTMLNode(root, element, scope, config) {
+function createHTMLNode(root, element, scope, config, indexOffset) {
     var fn = createValueFn(element.value);
     var kids;
-    var indexOffset = root.childNodes.length;
     var container = config.document.createElement('div');
     var addNodes = function(helpers, scope) {
         _.forEach(kids, function(node) {
@@ -36,39 +47,22 @@ function createHTMLNode(root, element, scope, config) {
         // nodeList is live and only array-like
         kids = _.toArray(container.childNodes);
         _.forEach(kids, function(node, index) {
-            var children = root.childNodes;
-            index += indexOffset;
-            // TODO: Needs to not be affected by sibling's `if` result
-            if (index === children.length) {
-                root.appendChild(node);
-            } else {
-                root.insertBefore(node, children[index]);
-            }
+            insertNode(root, node, index + indexOffset);
         });
     };
     addNodes(config, scope);
     if (config.listen) {
         config.listen(addNodes, scope, element.fields, config);
     }
+    return indexOffset + kids.length;
 }
 
-function createNodeList(root, element, scope, config) {
-    var indexOffset = root.children.length;
+function createNodeList(root, element, scope, config, indexOffset) {
     var collection = config.inject(scope, element.repeat);
     var items = config.collection(collection);
     if (_.isFunction(config.listenToCollection)) {
         var add = function(item, index) {
-            var el = createElement(root, elm, item, config);
-            if (el) {
-                var children = root.children;
-                index += indexOffset;
-                // TODO: Needs to not be affected by sibling's `if` result
-                if (index === children.length) {
-                    root.appendChild(el);
-                } else {
-                    root.insertBefore(el, children[index]);
-                }
-            }
+            createElement(root, elm, item, config, index + indexOffset);
         };
         var remove = function(item, index) {
             index += indexOffset;
@@ -78,15 +72,13 @@ function createNodeList(root, element, scope, config) {
         config.listenToCollection(collection, add, remove);
     }
     var elm = _.omit(element, 'repeat');
-    _.forEach(items, function(item) {
-        var el = createElement(root, elm, item, config);
-        if (el) {
-            root.appendChild(el);
-        }
+    _.forEach(items, function(item, index) {
+        createElement(root, elm, item, config, index + indexOffset);
     });
+    return indexOffset + items.length;
 }
 
-function createNode(element, scope, config) {
+function createNode(root, element, scope, config, indexOffset) {
     var el = config.document.createElement(element.tag);
     _.forEach(element.attributes, function(value, attr) {
         if (attr === 'if') {
@@ -108,27 +100,26 @@ function createNode(element, scope, config) {
             }
         }
     });
-    createElements(el, element.children, scope, config);
-    return el;
+    createElements(el, element.children, scope, config, indexOffset);
+    insertNode(root, el, indexOffset);
+    return indexOffset + 1;
 }
-function createElement(root, element, scope, config) {
+
+function createElement(root, element, scope, config, indexOffset) {
     if (element.tag === '#text') {
-        return createTextNode(element, scope, config);
+        return createTextNode(root, element, scope, config, indexOffset);
     } else if (element.tag === '#html') {
-        createHTMLNode(root, element, scope, config);
+        return createHTMLNode(root, element, scope, config, indexOffset);
     } else if (element.repeat) {
-        createNodeList(root, element, scope, config);
+        return createNodeList(root, element, scope, config, indexOffset);
     } else {
-        return createNode(element, scope, config);
+        return createNode(root, element, scope, config, indexOffset);
     }
 }
 
-function createElements(root, elements, scope, config) {
+function createElements(root, elements, scope, config, indexOffset) {
     _.forEach(elements, function(element) {
-        var el = createElement(root, element, scope, config);
-        if (el) {
-            root.appendChild(el);
-        }
+        indexOffset = createElement(root, element, scope, config, indexOffset);
     });
 }
 
@@ -136,7 +127,7 @@ function runtime(template, scope) {
     var cfg = _.defaults({}, runtime.settings, config);
     var doc = cfg.document;
     var nodeList = doc.createDocumentFragment();
-    createElements(nodeList, template, scope, cfg);
+    createElements(nodeList, template, scope, cfg, 0);
     return nodeList;
 }
 
