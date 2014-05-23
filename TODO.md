@@ -17,5 +17,6 @@
 * Escape HTML entities in injected content (opt in/out?)
 * Batch/queue change events and execute on next tick (+ option to force immediate for testing; consider promise/callback for notifications about changes to the DOM)
 * Handle focus somehow, possibly via <div focus="message.length === 0">
-* Decide which template file extension to use (.orn?)
+* Decide which template file extension to use (.orn? https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)
 * Add 'filters' (mutators/modifiers/whatever), e.g. {{timestampString | moment}}
+* Run tests on travis and testling
