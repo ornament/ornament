@@ -5,3 +5,6 @@
         </a>
     </li>
 </ul>
+<ul class="list-group">
+    <li repeat="people" class="list-group-item">{{name}}</li>
+</ul>

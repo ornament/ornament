@@ -6,8 +6,8 @@
         },
         "children": [
             {
-                "tag": "#text",
-                "value": "\n    "
+                "value": "\n    ",
+                "tag": "#text"
             },
             {
                 "tag": "li",
@@ -23,8 +23,8 @@
                 },
                 "children": [
                     {
-                        "tag": "#text",
-                        "value": "\n        "
+                        "value": "\n        ",
+                        "tag": "#text"
                     },
                     {
                         "tag": "a",
@@ -33,31 +33,67 @@
                         },
                         "children": [
                             {
-                                "tag": "#text",
-                                "value": "\n            "
+                                "value": "\n            ",
+                                "tag": "#text"
                             },
                             {
-                                "tag": "#text",
                                 "value": "helpers.inject(scope, 'name')",
                                 "fields": [
                                     "name"
-                                ]
+                                ],
+                                "tag": "#text"
                             },
                             {
-                                "tag": "#text",
-                                "value": "\n        "
+                                "value": "\n        ",
+                                "tag": "#text"
                             }
                         ]
                     },
                     {
-                        "tag": "#text",
-                        "value": "\n    "
+                        "value": "\n    ",
+                        "tag": "#text"
                     }
                 ]
             },
             {
-                "tag": "#text",
-                "value": "\n"
+                "value": "\n",
+                "tag": "#text"
+            }
+        ]
+    },
+    {
+        "value": "\n",
+        "tag": "#text"
+    },
+    {
+        "tag": "ul",
+        "attributes": {
+            "class": "list-group"
+        },
+        "children": [
+            {
+                "value": "\n    ",
+                "tag": "#text"
+            },
+            {
+                "tag": "li",
+                "repeat": "people",
+                "attributes": {
+                    "class": "list-group-item"
+                },
+                "children": [
+                    {
+                        "value": "helpers.inject(scope, 'name')",
+                        "fields": [
+                            "name"
+                        ],
+                        "tag": "#text"
+                    }
+                ]
+            },
+            {
+                "value": "\n",
+                "tag": "#text"
             }
         ]
     }

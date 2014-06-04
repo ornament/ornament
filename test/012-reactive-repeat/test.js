@@ -7,7 +7,7 @@ var runtime = require('../../runtime.js');
 var Collection = require('backbone').Collection;
 
 test('reactive display of items in collections', function(t) {
-    t.plan(180);
+    t.plan(260);
 
     var compiled = compiler(fs.readFileSync(__dirname + '/list.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
@@ -35,10 +35,14 @@ test('reactive display of items in collections', function(t) {
     var tree = runtime(compiled, data);
 
     var kids = children(tree);
-    t.equal(kids.length, 1);
+    t.equal(kids.length, 2);
     var el = kids[0];
     t.equal(el.nodeName.toLowerCase(), 'ul');
     t.equal(el.className, 'nav nav-tabs');
+    t.equal(el.children.length, 0);
+    el = kids[1];
+    t.equal(el.nodeName.toLowerCase(), 'ul');
+    t.equal(el.className, 'list-group');
     t.equal(el.children.length, 0);
 
     data.people.add({
@@ -61,6 +65,16 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.childNodes[1].nodeValue, 'Drake');
     t.equal(el.childNodes[2].nodeName.toLowerCase(), '#text');
     t.equal(el.childNodes[2].nodeValue, '\n        ');
+
+    kids = children(children(tree)[1]);
+    t.equal(kids.length, 1);
+    el = kids[0];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'list-group-item');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, 'Drake');
 
     data.people.add({
         name: 'Bell'
@@ -96,6 +110,23 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.childNodes[1].nodeValue, 'Drake');
     t.equal(el.childNodes[2].nodeName.toLowerCase(), '#text');
     t.equal(el.childNodes[2].nodeValue, '\n        ');
+
+    kids = children(children(tree)[1]);
+    t.equal(kids.length, 2);
+    el = kids[0];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'list-group-item');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, 'Bell');
+    el = kids[1];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'list-group-item');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, 'Drake');
 
     data.people.add({
         name: 'Zulu'
@@ -145,6 +176,30 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.childNodes[1].nodeValue, 'Zulu');
     t.equal(el.childNodes[2].nodeName.toLowerCase(), '#text');
     t.equal(el.childNodes[2].nodeValue, '\n        ');
+
+    kids = children(children(tree)[1]);
+    t.equal(kids.length, 3);
+    el = kids[0];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'list-group-item');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, 'Bell');
+    el = kids[1];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'list-group-item');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, 'Drake');
+    el = kids[2];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'list-group-item');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, 'Zulu');
 
     data.people.comparator = function(a, b) {
         a = a.get('name');
@@ -201,6 +256,30 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.childNodes[2].nodeName.toLowerCase(), '#text');
     t.equal(el.childNodes[2].nodeValue, '\n        ');
 
+    kids = children(children(tree)[1]);
+    t.equal(kids.length, 3);
+    el = kids[0];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'list-group-item');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, 'Zulu');
+    el = kids[1];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'list-group-item');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, 'Drake');
+    el = kids[2];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'list-group-item');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, 'Bell');
+
     data.people.comparator = 'name';
     data.people.sort();
 
@@ -249,6 +328,30 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.childNodes[2].nodeName.toLowerCase(), '#text');
     t.equal(el.childNodes[2].nodeValue, '\n        ');
 
+    kids = children(children(tree)[1]);
+    t.equal(kids.length, 3);
+    el = kids[0];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'list-group-item');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, 'Bell');
+    el = kids[1];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'list-group-item');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, 'Drake');
+    el = kids[2];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'list-group-item');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, 'Zulu');
+
     data.people.remove(data.people.at(0));
 
     kids = children(children(tree)[0]);
@@ -282,8 +385,27 @@ test('reactive display of items in collections', function(t) {
     t.equal(el.childNodes[2].nodeName.toLowerCase(), '#text');
     t.equal(el.childNodes[2].nodeValue, '\n        ');
 
+    kids = children(children(tree)[1]);
+    t.equal(kids.length, 2);
+    el = kids[0];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'list-group-item');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, 'Drake');
+    el = kids[1];
+    t.equal(el.nodeName.toLowerCase(), 'li');
+    t.equal(el.getAttribute('repeat'), null);
+    t.equal(el.getAttribute('class'), 'list-group-item');
+    el = el.childNodes[0];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(el.nodeValue, 'Zulu');
+
     data.people.reset();
 
     kids = children(children(tree)[0]);
+    t.equal(kids.length, 0);
+    kids = children(children(tree)[1]);
     t.equal(kids.length, 0);
 });
