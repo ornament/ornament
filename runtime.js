@@ -100,7 +100,7 @@ function createNode(root, element, scope, config, indexOffset) {
             }
         }
     });
-    createElements(el, element.children, scope, config, indexOffset);
+    createElements(el, element.children, scope, config);
     insertNode(root, el, indexOffset);
     return indexOffset + 1;
 }
@@ -117,7 +117,8 @@ function createElement(root, element, scope, config, indexOffset) {
     }
 }
 
-function createElements(root, elements, scope, config, indexOffset) {
+function createElements(root, elements, scope, config) {
+    var indexOffset = 0;
     _.forEach(elements, function(element) {
         indexOffset = createElement(root, element, scope, config, indexOffset);
     });
@@ -127,7 +128,7 @@ function runtime(template, scope) {
     var cfg = _.defaults({}, runtime.settings, config);
     var doc = cfg.document;
     var nodeList = doc.createDocumentFragment();
-    createElements(nodeList, template, scope, cfg, 0);
+    createElements(nodeList, template, scope, cfg);
     return nodeList;
 }
 
