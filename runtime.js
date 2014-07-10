@@ -1,9 +1,17 @@
 var _ = require('lodash');
 
-function createValueFn(value) {
-    /* jshint evil: true */
-    return new Function('helpers', 'scope', 'return ' + value);
-    /* jshint evil: false */
+function createValueFn(element, scope, config) {
+    if (element.expression) {
+        /* jshint evil: true */
+        return _.bind(new Function('helpers', 'return ' + element.expression), scope);
+        /* jshint evil: false */
+    } else {
+        var args = element.fields[0].slice(0);
+        args.unshift(scope);
+        return function() {
+            return config.read.apply(null, args);
+        };
+    }
 }
 
 function insertNode(parent, node, index) {
@@ -18,8 +26,8 @@ function insertNode(parent, node, index) {
 
 function createTextNode(root, element, scope, config, indexOffset) {
     var el;
-    if (element.fields) {
-        var fn = createValueFn(element.value);
+    if (element.fields || element.expression) {
+        var fn = createValueFn(element, scope, config);
         el = config.document.createTextNode('');
         var value = function(helpers, scope) {
             el.nodeValue = fn(helpers, scope);
@@ -36,7 +44,7 @@ function createTextNode(root, element, scope, config, indexOffset) {
 }
 
 function createHTMLNode(root, element, scope, config, indexOffset) {
-    var fn = createValueFn(element.value);
+    var fn = createValueFn(element, scope, config);
     var kids;
     var container = config.document.createElement('div');
     var addNodes = function(helpers, scope) {
@@ -58,7 +66,7 @@ function createHTMLNode(root, element, scope, config, indexOffset) {
 }
 
 function createNodeList(root, element, scope, config, indexOffset) {
-    var collection = config.inject(scope, element.repeat);
+    var collection = createValueFn(element.repeat, scope, config)();
     var items = config.collection(collection);
     if (_.isFunction(config.listenToCollection)) {
         var add = function(item, index) {
@@ -89,7 +97,7 @@ function createNode(root, element, scope, config, indexOffset) {
             if (_.isString(value)) {
                 el.setAttribute(attr, value);
             } else {
-                var fn = createValueFn(value.value);
+                var fn = createValueFn(value, scope, config);
                 el.setAttribute(attr, fn(config, scope));
                 if (config.listen) {
                     var onChange = function(helpers, scope) {
@@ -133,8 +141,12 @@ function runtime(template, scope) {
 }
 
 var config = {
-    inject: function(scope, attribute) {
-        var value = scope[attribute];
+    read: function(scope) {
+        var attributes = _.rest(arguments);
+        var value = _.reduce(attributes, function(scope, attr) {
+            if (!scope) { return scope; }
+            return scope[attr];
+        }, scope);
         return value === undefined ? '' : value;
     },
     collection: _.identity

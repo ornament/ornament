@@ -1,14 +1,52 @@
 var _ = require('lodash');
 
-function read(scope, attribute) {
-    // TODO: Handle nested attributes
-    var value;
-    if (_.isFunction(scope.get)) {
-        value = scope.get(attribute);
-    } else {
-        value = scope[attribute];
-    }
+/**
+ * Read a arbitrarily nested value on `scope`.
+ *
+ * @param {Object} scope the scope to read from
+ * @param {..String} attribute the attributes, accessed in order of appearance
+ * @returns {*}
+ */
+function read(scope) {
+    var attributes = _.rest(arguments);
+    var head = getHead(scope, attributes);
+    var value = get(head.object, head.attribute);
     return value === undefined ? '' : value;
+}
+
+/**
+ * Find the 'head' of an arbitrarily deep member identifier.
+ * @example
+ * // returns { object: one.two, attribute: 'three' }
+ * getHead(one, ['two', 'three'])
+ * @param {Object} base the base object of the identifier
+ * @param {String[]} attributes the attributes that specify the identifier, extending from `base`
+ * @returns {{object: Object, attribute: String}}
+ */
+function getHead(base, attributes) {
+    var attr = attributes.pop();
+    base = _.reduce(attributes, get, base);
+    return {
+        object: base,
+        attribute: attr
+    };
+}
+
+/**
+ * Read and return a property from an object.
+ * Reads via `get()` when available (except for collections).
+ *
+ * @param {Object} object the object to read from
+ * @param {String} attribute the attribute to read
+ * @returns {*}
+ */
+function get(object, attribute) {
+    if (object === undefined) { return; }
+    if (_.isFunction(object.get) && !_.has(object, 'models')) {
+        return object.get(attribute);
+    } else {
+        return object[attribute];
+    }
 }
 
 function collection(scope) {

@@ -1,0 +1,100 @@
+[
+    {
+        "tag": "#text",
+        "fields": [["title"]]
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "#text",
+        "fields": [["messages", "length"]]
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "#text",
+        "fields": [["messages", "length"]],
+        "expression": "helpers.read(this, 'messages', 'length') + 1;"
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "#text",
+        "fields": [["messages", "length"]],
+        "expression": "helpers.read(this, 'messages', 'length') + 'msgs';"
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "#text",
+        "fields": [["messages", "length"], ["privateMessages", "length"]],
+        "expression": "helpers.read(this, 'messages', 'length') + helpers.read(this, 'privateMessages', 'length');"
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "#text",
+        "fields": [["messages", 0, "body"]]
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "#text",
+        "expression": "this.fn();"
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "#text",
+        "fields": [["myValue"]],
+        "expression": "this.fn(helpers.read(this, 'myValue'));"
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "#text",
+        "fields": [["myValue"], ["second", "value"]],
+        "expression": "this.fn(helpers.read(this, 'myValue'), helpers.read(this, 'second', 'value'));"
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "input",
+        "attributes": {
+            "value": {
+                "fields": [["title"]]
+            }
+        }
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "input",
+        "attributes": {
+            "value": {
+                "fields": [["count"]],
+                "expression": "helpers.read(this, 'count') + 1;"
+            }
+        }
+    }
+]

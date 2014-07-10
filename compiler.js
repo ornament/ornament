@@ -1,3 +1,9 @@
+var _ = require('lodash');
+var esprima = require('esprima');
+var escodegen = require('escodegen');
+var types = require('ast-types');
+var namedTypes = types.namedTypes;
+var builders = types.builders;
 var voidElements = require('./void-elements.js');
 
 function ensureChildren(element) {
@@ -12,52 +18,95 @@ function ensureAttributes(element) {
     }
 }
 
+function isSingleMemberExpression(program) {
+    var body = program.body;
+    return body.length === 1 &&
+        namedTypes.ExpressionStatement.check(body[0]) &&
+        namedTypes.MemberExpression.check(body[0].expression);
+}
+
 function interpolate(text) {
     // TODO: Not sure about the linebreak fix, probably need to make a generic fix for escape characters
     var value = '\'' + text.replace(/\n/g, '\\n').replace(/'/g, '\\\'') + '\'';
     var fields = [];
-    value = value.replace(/\{\{([^}]*)\}\}/g, function(matched, attr) {
-        attr = attr.trim();
-        fields.push(attr);
-        return '\' + helpers.inject(scope, \'' + attr + '\') + \'';
+    var expressionCount = 0;
+    value = value.replace(/\{\{([^}]*)\}\}/g, function(matched, expression) {
+        // TODO: Disallow multiple statements (causes problem with 'return' prefix in runtime#createValueFn
+        expressionCount++;
+        expression = expression.replace(/\\'/g, '\''); // TODO
+        var ast = esprima.parse(expression);
+        // Check this before mutating AST
+        var isSingleMember = isSingleMemberExpression(ast);
+        types.traverse(ast, function(node) {
+            if (namedTypes.MemberExpression.check(node)) {
+                if (namedTypes.CallExpression.check(this.parent.node) &&
+                    this.parent.node.callee === node) {
+                    return false;
+                }
+                var field = [];
+                var isThisExpression = false;
+                types.traverse(node, function(n) {
+                    if (namedTypes.ThisExpression.check(n)) {
+                        isThisExpression = true;
+                    } else if (namedTypes.Literal.check(n)) {
+                        field.push(n.value);
+                    } else if (namedTypes.Identifier.check(n)) {
+                        field.push(n.name);
+                    }
+                });
+                if (isThisExpression) {
+                    fields.push(field);
+                    var callee = builders.memberExpression(
+                        builders.identifier('helpers'),
+                        builders.identifier('read'),
+                        false
+                    );
+                    var args = _.map(field, builders.literal);
+                    args.unshift(builders.thisExpression());
+                    var replacement = builders.callExpression(callee, args);
+                    _.assign(node, replacement);
+                }
+                return false;
+            }
+        });
+        if (isSingleMember) {
+            return '';
+        }
+        return '\' + ' + escodegen.generate(ast) + ' + \'';
     });
+    value = value.replace(/^''$/, '');
     value = value.replace(/^'' \+ /, '');
     value = value.replace(/ \+ ''$/, '');
     value = value.replace(/\+ '' \+/g, '+');
-    var result = {
-        value: value
-    };
-    if (fields.length > 0) {
-        result.fields = fields;
+    if (expressionCount > 0) {
+        var result = {};
+        if (value) {
+            result.expression = value;
+        }
+        if (!_.isEmpty(fields)) {
+            result.fields = fields;
+        }
+        return result;
     }
-    return result;
 }
 
 function createHTMLNode(parent, text) {
-    // TODO: Generate AST via esprima
     if (text[0] === '=') {
         text = text.substring(1);
     } else {
-        createTextNode(parent, '{{' + text + '}}');
+        createTextNode(parent, '{{' + text + '}}'); // TODO
         return;
     }
-    text = text.trim();
-    var element = {
-        tag: '#html',
-        value: 'helpers.inject(scope, \'' + text + '\')',
-        fields: [text]
-    };
+    var element = interpolate('{{' + text + '}}'); // TODO
+    element.tag = '#html';
     ensureChildren(parent);
     parent.children.push(element);
 }
 
 function createTextNode(parent, text) {
     if (!text) { return; }
-    var interpolated = interpolate(text);
-    var element;
-    if (interpolated.fields) {
-        element = interpolated;
-    } else {
+    var element = interpolate(text);
+    if (!element) {
         element = {
             value: text
         };
@@ -145,7 +194,7 @@ function parse(parent, chars, i) {
                     if (el.hasOwnProperty(attributeName)) {
                         throw new Error('Parse error: multiple \'' + attributeName + '\' attributes detected');
                     }
-                    el.repeat = attributeValue;
+                    el.repeat = interpolate('{{' + attributeValue + '}}'); // TODO
                 } else {
                     ensureAttributes(el);
                     if (el.attributes.hasOwnProperty(attributeName)) {
@@ -153,11 +202,7 @@ function parse(parent, chars, i) {
                         throw new Error('Parse error: multiple \'' + attributeName + '\' attributes detected');
                     }
                     var interpolated = interpolate(attributeValue);
-                    if (interpolated.fields) {
-                        el.attributes[attributeName] = interpolated;
-                    } else {
-                        el.attributes[attributeName] = attributeValue;
-                    }
+                    el.attributes[attributeName] = interpolated || attributeValue;
                 }
                 // Track to next non-whitespace character
                 while (/\s/.test(c)) {
