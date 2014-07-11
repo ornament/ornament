@@ -20,3 +20,5 @@
 * Decide which template file extension to use (.orn? https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)
 * Add 'filters' (mutators/modifiers/whatever), e.g. {{timestampString | moment}}
 * Run tests on travis and testling
+* Ensure that comments work (<!-- foo -->)
+* Add 'strict' mode to parser: http://w3c.github.io/elements-of-html/
