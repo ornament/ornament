@@ -25,8 +25,53 @@ function isSingleMemberExpression(program) {
         namedTypes.MemberExpression.check(body[0].expression);
 }
 
+function parseExpression(expression) {
+    var ast = esprima.parse(expression);
+    // Check this before mutating AST
+    var isSingleMember = isSingleMemberExpression(ast);
+    var fields = [];
+    types.traverse(ast, function(node) {
+        if (namedTypes.MemberExpression.check(node)) {
+            if (namedTypes.CallExpression.check(this.parent.node) &&
+                this.parent.node.callee === node) {
+                return false;
+            }
+            var field = [];
+            var isThisExpression = false;
+            // TODO: Can probably do namedTypes.ThisExpression.check(node.object) here
+            types.traverse(node, function(n) {
+                if (namedTypes.ThisExpression.check(n)) {
+                    isThisExpression = true;
+                } else if (namedTypes.Literal.check(n)) {
+                    field.push(n.value);
+                } else if (namedTypes.Identifier.check(n)) {
+                    field.push(n.name);
+                }
+            });
+            if (isThisExpression) {
+                fields.push(field);
+                var callee = builders.memberExpression(
+                    builders.identifier('helpers'),
+                    builders.identifier('read'),
+                    false
+                );
+                var args = _.map(field, builders.literal);
+                args.unshift(builders.thisExpression());
+                var replacement = builders.callExpression(callee, args);
+                _.assign(node, replacement);
+            }
+            return false;
+        }
+    });
+    var result = {};
+    if (!_.isEmpty(fields)) { result.fields = fields; }
+    if (!isSingleMember) { result.expression = escodegen.generate(ast); }
+    return result;
+}
+
 function interpolate(text) {
     // TODO: Not sure about the linebreak fix, probably need to make a generic fix for escape characters
+    // TODO: Convert entire string to an expression by text.replace('{{', '\' + ').replace('}}', '+ \'')
     var value = '\'' + text.replace(/\n/g, '\\n').replace(/'/g, '\\\'') + '\'';
     var fields = [];
     var expressionCount = 0;
@@ -34,45 +79,15 @@ function interpolate(text) {
         // TODO: Disallow multiple statements (causes problem with 'return' prefix in runtime#createValueFn
         expressionCount++;
         expression = expression.replace(/\\'/g, '\''); // TODO
-        var ast = esprima.parse(expression);
-        // Check this before mutating AST
-        var isSingleMember = isSingleMemberExpression(ast);
-        types.traverse(ast, function(node) {
-            if (namedTypes.MemberExpression.check(node)) {
-                if (namedTypes.CallExpression.check(this.parent.node) &&
-                    this.parent.node.callee === node) {
-                    return false;
-                }
-                var field = [];
-                var isThisExpression = false;
-                types.traverse(node, function(n) {
-                    if (namedTypes.ThisExpression.check(n)) {
-                        isThisExpression = true;
-                    } else if (namedTypes.Literal.check(n)) {
-                        field.push(n.value);
-                    } else if (namedTypes.Identifier.check(n)) {
-                        field.push(n.name);
-                    }
-                });
-                if (isThisExpression) {
-                    fields.push(field);
-                    var callee = builders.memberExpression(
-                        builders.identifier('helpers'),
-                        builders.identifier('read'),
-                        false
-                    );
-                    var args = _.map(field, builders.literal);
-                    args.unshift(builders.thisExpression());
-                    var replacement = builders.callExpression(callee, args);
-                    _.assign(node, replacement);
-                }
-                return false;
-            }
-        });
-        if (isSingleMember) {
+        var result = parseExpression(expression);
+        if (result.fields) {
+            fields = fields.concat(result.fields);
+        }
+        if (result.expression) {
+            return '\' + ' + result.expression + ' + \'';
+        } else {
             return '';
         }
-        return '\' + ' + escodegen.generate(ast) + ' + \'';
     });
     value = value.replace(/^''$/, '');
     value = value.replace(/^'' \+ /, '');
@@ -90,28 +105,24 @@ function interpolate(text) {
     }
 }
 
-function createHTMLNode(parent, text) {
+function createInterpolationNode(parent, text) {
+    var tag = '#text';
     if (text[0] === '=') {
         text = text.substring(1);
-    } else {
-        createTextNode(parent, '{{' + text + '}}'); // TODO
-        return;
+        tag = '#html';
     }
-    var element = interpolate('{{' + text + '}}'); // TODO
-    element.tag = '#html';
+    var element = parseExpression(text);
+    element.tag = tag;
     ensureChildren(parent);
     parent.children.push(element);
 }
 
 function createTextNode(parent, text) {
     if (!text) { return; }
-    var element = interpolate(text);
-    if (!element) {
-        element = {
-            value: text
-        };
-    }
-    element.tag = '#text';
+    var element = {
+        tag: '#text',
+        value: text
+    };
     ensureChildren(parent);
     parent.children.push(element);
 }
@@ -194,7 +205,7 @@ function parse(parent, chars, i) {
                     if (el.hasOwnProperty(attributeName)) {
                         throw new Error('Parse error: multiple \'' + attributeName + '\' attributes detected');
                     }
-                    el.repeat = interpolate('{{' + attributeValue + '}}'); // TODO
+                    el.repeat = parseExpression(attributeValue);
                 } else {
                     ensureAttributes(el);
                     if (el.attributes.hasOwnProperty(attributeName)) {
@@ -224,7 +235,7 @@ function parse(parent, chars, i) {
                 int += c;
             }
             i++;
-            createHTMLNode(parent, int);
+            createInterpolationNode(parent, int);
         } else {
             text += c;
         }
