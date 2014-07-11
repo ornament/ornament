@@ -16,7 +16,7 @@ test('repeat items in collections', function(t) {
     } catch (e) {
         runtime.settings = { document: jsdom('') };
     }
-    runtime.settings.inject = require('../../binding-backbone.js').read;
+    runtime.settings.read = require('../../binding-backbone.js').read;
     runtime.settings.collection = require('../../binding-backbone.js').collection;
     var data = {
         people: new Collection()

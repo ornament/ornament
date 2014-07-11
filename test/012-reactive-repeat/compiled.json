@@ -11,12 +11,15 @@
             },
             {
                 "tag": "li",
-                "repeat": "people",
+                "repeat": {
+                    "fields": [
+                        ["people"]
+                    ]
+                },
                 "attributes": {
                     "data-name": {
-                        "value": "helpers.inject(scope, 'name')",
                         "fields": [
-                            "name"
+                            ["name"]
                         ]
                     },
                     "class": "nav-item"
@@ -37,9 +40,8 @@
                                 "tag": "#text"
                             },
                             {
-                                "value": "helpers.inject(scope, 'name')",
                                 "fields": [
-                                    "name"
+                                    ["name"]
                                 ],
                                 "tag": "#text"
                             },
@@ -77,15 +79,18 @@
             },
             {
                 "tag": "li",
-                "repeat": "people",
+                "repeat": {
+                    "fields": [
+                        ["people"]
+                    ]
+                },
                 "attributes": {
                     "class": "list-group-item"
                 },
                 "children": [
                     {
-                        "value": "helpers.inject(scope, 'name')",
                         "fields": [
-                            "name"
+                            ["name"]
                         ],
                         "tag": "#text"
                     }

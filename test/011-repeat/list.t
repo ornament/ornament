@@ -1,5 +1,5 @@
 <ul>
-    <li repeat="people">
-        {{name}}
+    <li repeat="this.people">
+        {{this.name}}
     </li>
 </ul>

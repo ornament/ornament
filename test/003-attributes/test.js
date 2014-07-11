@@ -16,7 +16,7 @@ test('parse nodes with attributes', function(t) {
     } catch (e) {
         runtime.settings = { document: jsdom('') };
     }
-    runtime.settings.inject = require('../../binding-backbone.js').read;
+    runtime.settings.read = require('../../binding-backbone.js').read;
     runtime.settings.listen = require('../../binding-backbone.js').listen;
     var data = new Model({
         name: 'bar'

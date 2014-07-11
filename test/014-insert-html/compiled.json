@@ -8,8 +8,7 @@
             },
             {
                 "tag": "#text",
-                "value": "helpers.inject(scope, 'label')",
-                "fields": ["label"]
+                "fields": [["label"]]
             },
             {
                 "tag": "#text",
@@ -17,8 +16,7 @@
             },
             {
                 "tag": "#html",
-                "value": "helpers.inject(scope, 'markup')",
-                "fields": ["markup"]
+                "fields": [["markup"]]
             },
             {
                 "tag": "#text",

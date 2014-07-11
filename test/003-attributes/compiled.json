@@ -3,9 +3,8 @@
     "attributes": {
         "type": "text",
         "data-role": {
-            "value": "helpers.inject(scope, 'name')",
             "fields": [
-                "name"
+                ["name"]
             ]
         },
         "value": "foo"

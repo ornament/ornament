@@ -17,7 +17,7 @@ test('place repeated items correctly according to existing siblings', function(t
     } catch (e) {
         runtime.settings = { document: jsdom('') };
     }
-    runtime.settings.inject = require('../../binding-backbone.js').read;
+    runtime.settings.read = require('../../binding-backbone.js').read;
     runtime.settings.listen = require('../../binding-backbone.js').listen;
     runtime.settings.collection = require('../../binding-backbone.js').collection;
     runtime.settings.listenToCollection = require('../../binding-backbone.js').listenToCollection;

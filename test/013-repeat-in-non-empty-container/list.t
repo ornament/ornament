@@ -1,6 +1,6 @@
 <ul>
-    <li repeat="people">
-        {{name}}
+    <li repeat="this.people">
+        {{this.name}}
     </li>
     <li>
         + Add person
@@ -8,7 +8,7 @@
 </ul>
 <select>
     <option>Select person...</option>
-    <option repeat="people" data-person="{{name}}">
-        {{name}}
+    <option repeat="this.people" data-person="{{this.name}}">
+        {{this.name}}
     </option>
 </select>

@@ -1,3 +1,3 @@
 <div>
-    {{label}} {{=markup}}
+    {{this.label}} {{=this.markup}}
 </div>

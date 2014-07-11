@@ -4,9 +4,8 @@
         "children": [
             {
                 "tag": "#text",
-                "value": "helpers.inject(scope, 'last')",
                 "fields": [
-                    "last"
+                    ["last"]
                 ]
             },
             {
@@ -15,9 +14,8 @@
             },
             {
                 "tag": "#text",
-                "value": "helpers.inject(scope, 'first')",
                 "fields": [
-                    "first"
+                    ["first"]
                 ]
             }
         ]
@@ -35,9 +33,8 @@
             },
             {
                 "tag": "#text",
-                "value": "helpers.inject(scope, 'first')",
                 "fields": [
-                    "first"
+                    ["first"]
                 ]
             },
             {
@@ -46,9 +43,8 @@
             },
             {
                 "tag": "#text",
-                "value": "helpers.inject(scope, 'last')",
                 "fields": [
-                    "last"
+                    ["last"]
                 ]
             },
             {
@@ -70,16 +66,14 @@
             },
             {
                 "tag": "#text",
-                "value": "helpers.inject(scope, 'first')",
                 "fields": [
-                    "first"
+                    ["first"]
                 ]
             },
             {
                 "tag": "#text",
-                "value": "helpers.inject(scope, 'last')",
                 "fields": [
-                    "last"
+                    ["last"]
                 ]
             }
         ]
@@ -97,9 +91,8 @@
             },
             {
                 "tag": "#text",
-                "value": "helpers.inject(scope, 'first')",
                 "fields": [
-                    "first"
+                    ["first"]
                 ]
             },
             {
