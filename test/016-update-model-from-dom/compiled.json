@@ -1,0 +1,11 @@
+[
+    {
+        "tag": "input",
+        "attributes": {
+            "type": "text",
+            "value": {
+                "fields": [["message"]]
+            }
+        }
+    }
+]

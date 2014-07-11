@@ -1,6 +1,8 @@
 var _ = require('lodash');
 
 function createValueFn(element, scope, config) {
+    // TODO: Investigate if doing a dirty-check against the
+    // DOM is cheap enough to prevent unnecessary updates
     if (element.expression) {
         /* jshint evil: true */
         return _.bind(new Function('helpers', 'return ' + element.expression), scope);
@@ -105,6 +107,16 @@ function createNode(root, element, scope, config, indexOffset) {
                     };
                     config.listen(onChange, scope, value.fields, config);
                 }
+                if (config.listen &&
+                    !value.expression && // Prevent illegal bindings
+                    element.tag === 'input') {
+                    // TODO: Should probably fall back to 'change' for 'select' and 'keygen'
+                    var eventName = 'oninput' in el ? 'input' : 'keyup';
+                    el.addEventListener(eventName, function(event) {
+                        var args = [event.target.value, scope].concat(value.fields[0]);
+                        config.write.apply(null, args);
+                    });
+                }
             }
         }
     });
@@ -149,7 +161,16 @@ var config = {
         }, scope);
         return value === undefined ? '' : value;
     },
-    collection: _.identity
+    write: function(value, scope) {
+        var attributes = _.rest(arguments, 2);
+        var attr = attributes.pop();
+        scope = _.reduce(attributes, function(scope, attr) {
+            if (!scope) { return scope; }
+            return scope[attr];
+        }, scope);
+        scope[attr] = value;
+    },
+    collection: _.identity // TODO: Should defer to `read()`
 };
 try {
     config.document = document;

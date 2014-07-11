@@ -15,6 +15,23 @@ function read(scope) {
 }
 
 /**
+ * Write a value to an attribute - at an arbitrary depth - on scope.
+ *
+ * @param {*} value the value to write
+ * @param {Object} scope the scope to write to
+ * @param {..String} attribute the attributes, accessed in order of appearance
+ */
+function write(value, scope) {
+    var attributes = _.rest(arguments, 2);
+    var head = getHead(scope, attributes);
+    if (_.isFunction(head.object.get)) {
+        head.object.set(head.attribute, value);
+    } else {
+        head.object[head.attribute] = value;
+    }
+}
+
+/**
  * Find the 'head' of an arbitrarily deep member identifier.
  * @example
  * // returns { object: one.two, attribute: 'three' }
@@ -96,6 +113,7 @@ function listenToCollection(items, add, remove) {
 }
 
 module.exports.read = read;
+module.exports.write = write;
 module.exports.collection = collection;
 module.exports.listenToCollection = listenToCollection;
 module.exports.listen = listen;
