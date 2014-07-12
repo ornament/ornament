@@ -6,7 +6,7 @@ var runtime = require('../../runtime.js');
 var Model = require('backbone').Model;
 
 test('binds from view to model', function(t) {
-    t.plan(6);
+    t.plan(14);
 
     var compiled = compiler(fs.readFileSync(__dirname + '/input.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
@@ -28,11 +28,12 @@ test('binds from view to model', function(t) {
     }
 
     var data = new Model({
-        message: 'Hello there!'
+        message: 'Hello there!',
+        count: 41
     });
     var tree = runtime(compiled, data);
 
-    t.equal(tree.childNodes.length, 1);
+    t.equal(tree.childNodes.length, 5);
     var el = tree.childNodes[0];
     t.equal(el.nodeName.toLowerCase(), 'input');
     t.equal(el.getAttribute('value'), 'Hello there!');
@@ -43,6 +44,28 @@ test('binds from view to model', function(t) {
     el.setAttribute('value', 'Jenkins');
     triggerChange(el);
     t.equal(data.get('message'), 'Jenkins');
+
+    el = tree.childNodes[2];
+    t.equal(el.nodeName.toLowerCase(), 'input');
+    t.equal(el.getAttribute('value'), '42');
+
+    data.set('count', 1336);
+    t.equal(el.getAttribute('value'), '1337');
+
+    el.setAttribute('value', '3.14');
+    triggerChange(el);
+    t.equal(data.get('count'), 1336);
+
+    el = tree.childNodes[4];
+    t.equal(el.nodeName.toLowerCase(), 'input');
+    t.equal(el.getAttribute('value'), 'Your name: ');
+
+    data.set('name', 'John');
+    t.equal(el.getAttribute('value'), 'Your name: John');
+
+    el.setAttribute('value', 'Your name: John Scott');
+    triggerChange(el);
+    t.equal(data.get('name'), 'John');
     // TODO: Caret pos before/after
 });
 

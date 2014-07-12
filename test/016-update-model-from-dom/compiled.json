@@ -7,5 +7,33 @@
                 "fields": [["message"]]
             }
         }
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "input",
+        "attributes": {
+            "type": "text",
+            "value": {
+                "expression": "helpers.read(this, 'count') + 1;",
+                "fields": [["count"]]
+            }
+        }
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "input",
+        "attributes": {
+            "type": "text",
+            "value": {
+                "expression": "'Your name: ' + helpers.read(this, 'name');",
+                "fields": [["name"]]
+            }
+        }
     }
 ]
