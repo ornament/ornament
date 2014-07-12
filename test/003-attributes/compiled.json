@@ -44,4 +44,19 @@
         "tag": "#text",
         "value": "\n    This is a message. Read me.\n"
     }]
+}, {
+    "tag": "#text",
+    "value": "\n"
+}, {
+    "tag": "small",
+    "attributes": {
+        "class": {
+            "fields": [["active"]],
+            "expression": "'item ' + (helpers.read(this, 'active') ? 'active' : '');"
+        },
+        "data-id": {
+            "fields": [["id"]],
+            "expression": "'item-' + helpers.read(this, 'id');"
+        }
+    }
 }]

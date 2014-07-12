@@ -18,14 +18,27 @@ function ensureAttributes(element) {
     }
 }
 
-function isSingleMemberExpression(program) {
+function isSingleExpressionProgram(program) {
     var body = program.body;
     return body.length === 1 &&
-        namedTypes.ExpressionStatement.check(body[0]) &&
+        namedTypes.ExpressionStatement.check(body[0]);
+}
+
+function isSingleMemberExpression(program) {
+    var body = program.body;
+    return isSingleExpressionProgram(program) &&
         namedTypes.MemberExpression.check(body[0].expression);
 }
 
+function isSingleStringLiteralExpression(program) {
+    var body = program.body;
+    return isSingleExpressionProgram(program) &&
+        namedTypes.Literal.check(body[0].expression) &&
+        _.isString(body[0].expression.value);
+}
+
 function parseExpression(expression) {
+    // TODO: Disallow multiple statements (causes problem with 'return' prefix in runtime#createValueFn
     var ast = esprima.parse(expression);
     // Check this before mutating AST
     var isSingleMember = isSingleMemberExpression(ast);
@@ -70,38 +83,16 @@ function parseExpression(expression) {
 }
 
 function interpolate(text) {
-    // TODO: Not sure about the linebreak fix, probably need to make a generic fix for escape characters
-    // TODO: Convert entire string to an expression by text.replace('{{', '\' + ').replace('}}', '+ \'')
-    var value = '\'' + text.replace(/\n/g, '\\n').replace(/'/g, '\\\'') + '\'';
-    var fields = [];
-    var expressionCount = 0;
-    value = value.replace(/\{\{([^}]*)\}\}/g, function(matched, expression) {
-        // TODO: Disallow multiple statements (causes problem with 'return' prefix in runtime#createValueFn
-        expressionCount++;
-        expression = expression.replace(/\\'/g, '\''); // TODO
-        var result = parseExpression(expression);
-        if (result.fields) {
-            fields = fields.concat(result.fields);
-        }
-        if (result.expression) {
-            return '\' + ' + result.expression + ' + \'';
-        } else {
-            return '';
-        }
-    });
-    value = value.replace(/^''$/, '');
-    value = value.replace(/^'' \+ /, '');
-    value = value.replace(/ \+ ''$/, '');
-    value = value.replace(/\+ '' \+/g, '+');
-    if (expressionCount > 0) {
-        var result = {};
-        if (value) {
-            result.expression = value;
-        }
-        if (!_.isEmpty(fields)) {
-            result.fields = fields;
-        }
-        return result;
+    var expression = ('\'' + text + '\'')
+        .replace(/^'\{\{/, '(')
+        .replace(/\}\}'$/, ')')
+        .replace(/\{\{/g, '\' + (')
+        .replace(/\}\}/g, ') + \'');
+    var ast = esprima.parse(expression);
+    if (isSingleStringLiteralExpression(ast)) {
+        return text;
+    } else {
+        return parseExpression(expression);
     }
 }
 
