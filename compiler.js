@@ -37,8 +37,10 @@ function isSingleStringLiteralExpression(program) {
         _.isString(body[0].expression.value);
 }
 
+// TODO: Optional `ast` argument
 function parseExpression(expression) {
     // TODO: Disallow multiple statements (causes problem with 'return' prefix in runtime#createValueFn
+    // TODO: This will throw on illegal expressions, handle
     var ast = esprima.parse(expression);
     // Check this before mutating AST
     var isSingleMember = isSingleMemberExpression(ast);
@@ -51,9 +53,10 @@ function parseExpression(expression) {
             }
             var field = [];
             var isThisExpression = false;
-            // TODO: Can probably do namedTypes.ThisExpression.check(node.object) here
             types.traverse(node, function(n) {
-                if (namedTypes.ThisExpression.check(n)) {
+                if (namedTypes.CallExpression.check(n)) {
+                    return false;
+                } else if (namedTypes.ThisExpression.check(n)) {
                     isThisExpression = true;
                 } else if (namedTypes.Literal.check(n)) {
                     field.push(n.value);
@@ -78,7 +81,7 @@ function parseExpression(expression) {
     });
     var result = {};
     if (!_.isEmpty(fields)) { result.fields = fields; }
-    if (!isSingleMember) { result.expression = escodegen.generate(ast); }
+    if (!isSingleMember || _.isEmpty(fields)) { result.expression = escodegen.generate(ast); }
     return result;
 }
 

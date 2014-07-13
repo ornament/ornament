@@ -7,5 +7,6 @@
 {{this.fn()}}
 {{this.fn(this.myValue)}}
 {{this.fn(this.myValue, this.second.value)}}
+{{this.fn().length}}
 <input value="{{this.title}}">
 <input value="{{this.count + 1}}">

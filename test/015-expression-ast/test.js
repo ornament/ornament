@@ -7,7 +7,7 @@ var Model = require('backbone').Model;
 var Collection = require('backbone').Collection;
 
 test('parses interpolated values as expressions', function(t) {
-    t.plan(24);
+    t.plan(26);
 
     var compiled = compiler(fs.readFileSync(__dirname + '/misc.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
@@ -38,7 +38,7 @@ test('parses interpolated values as expressions', function(t) {
     };
     var tree = runtime(compiled, data);
 
-    t.equal(tree.childNodes.length, 21);
+    t.equal(tree.childNodes.length, 23);
     var el = tree.childNodes[0];
     t.equal(el.nodeName.toLowerCase(), '#text');
     t.equal(el.nodeValue, 'My pretty title');
@@ -67,9 +67,12 @@ test('parses interpolated values as expressions', function(t) {
     t.equal(el.nodeName.toLowerCase(), '#text');
     t.equal(el.nodeValue, 'echo: val, again');
     el = tree.childNodes[18];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.equal(String(el.nodeValue), '6');
+    el = tree.childNodes[20];
     t.equal(el.nodeName.toLowerCase(), 'input');
     t.equal(el.getAttribute('value'), 'My pretty title');
-    el = tree.childNodes[20];
+    el = tree.childNodes[22];
     t.equal(el.nodeName.toLowerCase(), 'input');
     t.equal(el.getAttribute('value'), '42');
 });

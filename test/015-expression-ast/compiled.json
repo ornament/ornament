@@ -77,6 +77,14 @@
         "value": "\n"
     },
     {
+        "tag": "#text",
+        "expression": "this.fn().length;"
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
         "tag": "input",
         "attributes": {
             "value": {
