@@ -8,17 +8,21 @@
 * Extract event listener logic and pair with template change events, i.e. 'ornament-bind-*' (example: 'ornament-bind-backbone')
 * Figure out how to handle mixed models (e.g. POJO + Backbone.Model). Possibly sniff types somehow?
 * `if` attribute (should this include interpolation? if="{{condition}}" vs. if="condition")
-* Ability to reference parent scope (needed for `repeat`)
-* Rename `inject`
+* Ability to reference parent scope (needed for `repeat`), possibly solved by `parent` argument?
 * Throw descriptive message if `document` is missing, linking to Node.js usage docs
 * Reduce usage of external dependencies (e.g. reduce `lodash` to specific methods if is saves runtime space)
 * Code coverage
 * Handle comments in markup (don't barf on parse, + option to omit from output)
 * Escape HTML entities in injected content (opt in/out?)
 * Batch/queue change events and execute on next tick (+ option to force immediate for testing; consider promise/callback for notifications about changes to the DOM)
+* Consider rAF for timing DOM updates
 * Handle focus somehow, possibly via <div focus="message.length === 0">
 * Decide which template file extension to use (.orn? https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)
 * Add 'filters' (mutators/modifiers/whatever), e.g. {{timestampString | moment}}
 * Run tests on travis and testling
 * Ensure that comments work (<!-- foo -->)
 * Add 'strict' mode to parser: http://w3c.github.io/elements-of-html/
+* JSCS JSDoc
+* hello {{'world';}}! <- fails
+* Listening to nested objects
+* Detect when objects go away, tear down listeners
