@@ -87,6 +87,7 @@ function parseExpression(expression) {
 
 function interpolate(text) {
     var expression = ('\'' + text + '\'')
+        .replace(/;\s*(\}\})/, '$1')
         .replace(/^'\{\{/, '(')
         .replace(/\}\}'$/, ')')
         .replace(/\{\{/g, '\' + (')
