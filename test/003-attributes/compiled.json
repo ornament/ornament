@@ -52,7 +52,7 @@
     "attributes": {
         "class": {
             "fields": [["active"]],
-            "expression": "'item ' + (helpers.read(this, 'active') ? 'active' : '');"
+            "expression": "'item ' + (helpers.read(this, 'active') ? 'active' : '') + ' inline';"
         },
         "data-id": {
             "fields": [["id"]],

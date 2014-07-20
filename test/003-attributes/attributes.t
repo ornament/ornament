@@ -4,4 +4,4 @@
 <div class="alert alert-info">
     This is a message. Read me.
 </div>
-<small class="item {{this.active ? 'active' : ''}}" data-id="item-{{this.id}}"></small>
+<small class="item {{this.active ? 'active' : ''}} inline" data-id="item-{{this.id}}"></small>

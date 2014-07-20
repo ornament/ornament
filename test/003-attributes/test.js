@@ -69,12 +69,12 @@ test('parse nodes with attributes', function(t) {
 
     el = tree.childNodes[8];
     t.equal(el.nodeName.toLowerCase(), 'small');
-    t.equal(el.getAttribute('class'), 'item ');
+    t.equal(el.getAttribute('class'), 'item  inline');
     t.equal(el.getAttribute('data-id'), 'item-123');
 
     data.set('active', true);
 
-    t.equal(el.getAttribute('class'), 'item active');
+    t.equal(el.getAttribute('class'), 'item active inline');
     t.equal(el.getAttribute('data-id'), 'item-123');
 
     data.set('id', 321);
