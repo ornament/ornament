@@ -26,11 +26,11 @@ function insertNode(parent, node, index) {
     }
 }
 
-function createTextNode(root, element, scope, config, indexOffset) {
+function createTextNode(root, element, scope, config, indexOffset, createFn) {
     var el;
     if (element.fields || element.expression) {
         var fn = createValueFn(element, scope);
-        el = config.document.createTextNode('');
+        el = config.document[createFn]('');
         var value = function(helpers) {
             el.nodeValue = fn(helpers);
         };
@@ -39,7 +39,7 @@ function createTextNode(root, element, scope, config, indexOffset) {
             config.listen(value, scope, element.fields, config);
         }
     } else {
-        el = config.document.createTextNode(element.value);
+        el = config.document[createFn](element.value);
     }
     insertNode(root, el, indexOffset);
     return indexOffset + 1;
@@ -127,7 +127,9 @@ function createNode(root, element, scope, config, indexOffset) {
 
 function createElement(root, element, scope, config, indexOffset) {
     if (element.tag === '#text') {
-        return createTextNode(root, element, scope, config, indexOffset);
+        return createTextNode(root, element, scope, config, indexOffset, 'createTextNode');
+    } else if (element.tag === '#comment') {
+        return createTextNode(root, element, scope, config, indexOffset, 'createComment');
     } else if (element.tag === '#html') {
         return createHTMLNode(root, element, scope, config, indexOffset);
     } else if (element.repeat) {

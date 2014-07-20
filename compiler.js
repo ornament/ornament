@@ -129,10 +129,16 @@ function createCommentNode(parent, chars, offset) {
         text += c;
         if (c === '>' && chars[offset - 2] === '-' && chars[offset - 3] === '-') {
             ensureChildren(parent);
-            parent.children.push({
-                tag: '#comment',
-                value: text.substr(0, text.length - 3)
-            });
+            var element = interpolate(text.substr(0, text.length - 3));
+            if (_.isString(element)) {
+                parent.children.push({
+                    tag: '#comment',
+                    value: element
+                });
+            } else {
+                element.tag = '#comment';
+                parent.children.push(element);
+            }
             return offset;
         }
     }

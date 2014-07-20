@@ -27,5 +27,14 @@
     {
         "tag": "#comment",
         "value": " </SPAN> "
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "#comment",
+        "fields": [["comment"]],
+        "expression": "' Well well well ' + helpers.read(this, 'comment') + ' ';"
     }
 ]
