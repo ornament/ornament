@@ -12,17 +12,12 @@
 * Throw descriptive message if `document` is missing, linking to Node.js usage docs
 * Reduce usage of external dependencies (e.g. reduce `lodash` to specific methods if is saves runtime space)
 * Code coverage
-* Handle comments in markup (don't barf on parse, + option to omit from output)
-* Escape HTML entities in injected content (opt in/out?)
 * Batch/queue change events and execute on next tick (+ option to force immediate for testing; consider promise/callback for notifications about changes to the DOM)
 * Consider rAF for timing DOM updates
-* Handle focus somehow, possibly via <div focus="message.length === 0">
+* Handle autofocus somehow, possibly via <div focus="message.length === 0">
 * Decide which template file extension to use (.orn? https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)
-* Add 'filters' (mutators/modifiers/whatever), e.g. {{timestampString | moment}}
+* Add 'filters' (mutators/modifiers/whatever), e.g. {{timestampString | moment}} OR just do it with imports + expressions
 * Run tests on travis and testling
-* Ensure that comments work (<!-- foo -->)
 * Add 'strict' mode to parser: http://w3c.github.io/elements-of-html/
 * JSCS JSDoc
-* hello {{'world';}}! <- fails
-* Listening to nested objects
-* Detect when objects go away, tear down listeners
+* Make runtime return a Ornament instance instead of a documentFragment. Add `appendTo()` and `destroy()`
