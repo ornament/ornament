@@ -7,7 +7,7 @@ var runtime = require('../../runtime.js');
 var Model = require('backbone').Model;
 
 test('reactive templates', function(t) {
-    t.plan(6);
+    t.plan(7);
 
     var compiled = compiler(fs.readFileSync(__dirname + '/interpolation.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
@@ -28,25 +28,31 @@ test('reactive templates', function(t) {
         }, '');
     }
 
-    t.equal(html(), '<span>, </span>\n<span>Hello  !</span>\n<span>Username: </span>\n<span>\'\'</span>');
+    t.equal(html(), '<span>, </span>\n<span>Hello  !</span>\n' +
+        '<span>Username: </span>\n<span>\'\'</span>\n<span>a  expression</span>');
 
     data.set('first', 'Drake');
 
     t.equal(html(), '<span>, Drake</span>\n<span>Hello Drake !</span>\n' +
-        '<span>Username: Drake</span>\n<span>\'Drake\'</span>');
+        '<span>Username: Drake</span>\n<span>\'Drake\'</span>\n<span>a  expression</span>');
 
     data.set('last', 'Bell');
 
     t.equal(html(), '<span>Bell, Drake</span>\n<span>Hello Drake Bell!</span>\n' +
-        '<span>Username: DrakeBell</span>\n<span>\'Drake\'</span>');
+        '<span>Username: DrakeBell</span>\n<span>\'Drake\'</span>\n<span>a  expression</span>');
 
     data.unset('first');
 
     t.equal(html(), '<span>Bell, </span>\n<span>Hello  Bell!</span>\n' +
-        '<span>Username: Bell</span>\n<span>\'\'</span>');
+        '<span>Username: Bell</span>\n<span>\'\'</span>\n<span>a  expression</span>');
 
     data.clear();
 
     t.equal(html(), '<span>, </span>\n<span>Hello  !</span>\n' +
-        '<span>Username: </span>\n<span>\'\'</span>');
+        '<span>Username: </span>\n<span>\'\'</span>\n<span>a  expression</span>');
+
+    data.set('complex', 'complex');
+
+    t.equal(html(), '<span>, </span>\n<span>Hello  !</span>\n' +
+        '<span>Username: </span>\n<span>\'\'</span>\n<span>a complex expression</span>');
 });

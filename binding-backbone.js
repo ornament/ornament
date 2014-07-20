@@ -83,12 +83,11 @@ function collection(scope) {
  * @param {Object} helpers an object containing template helper methods
  */
 function listen(cb, scope, attributes, helpers) {
+    var fn = _.partial(cb, helpers, scope);
     _.forEach(attributes, function(attr) {
         // TODO: Marshall all changes to the element's attributes
         // through one handler and execute DOM update on next tick
-        scope.on('change:' + attr, function() {
-            cb(helpers, scope);
-        });
+        scope.on('change:' + attr.join('.'), fn);
     });
     // TODO: Tear down when element disappears
 }

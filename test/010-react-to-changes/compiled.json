@@ -100,5 +100,19 @@
                 "value": "'"
             }
         ]
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "span",
+        "children": [
+            {
+                "tag": "#text",
+                "fields": [["complex"]],
+                "expression": "'a ' + helpers.read(this, 'complex') + ' expression';"
+            }
+        ]
     }
 ]
