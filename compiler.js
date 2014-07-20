@@ -122,6 +122,22 @@ function createTextNode(parent, text) {
     parent.children.push(element);
 }
 
+function createCommentNode(parent, chars, offset) {
+    var c;
+    var text = '';
+    while ((c = chars[offset++])) {
+        text += c;
+        if (c === '>' && chars[offset - 2] === '-' && chars[offset - 3] === '-') {
+            ensureChildren(parent);
+            parent.children.push({
+                tag: '#comment',
+                value: text.substr(0, text.length - 3)
+            });
+            return offset;
+        }
+    }
+}
+
 function parse(parent, chars, i) {
     var text = '';
     // Parse markup
@@ -134,6 +150,10 @@ function parse(parent, chars, i) {
             // Parse tag name
             var tagName = '';
             c = chars[i];
+            if (c === '!' && chars[i + 1] === '-' && chars[i + 2] === '-') {
+                i = createCommentNode(parent, chars, i + 3);
+                continue;
+            }
             var closing;
             if (c === '/') {
                 closing = true;

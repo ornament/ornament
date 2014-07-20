@@ -1,0 +1,31 @@
+[
+    {
+        "tag": "#comment",
+        "value": " This is a comment "
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "span",
+        "children": [
+            {
+                "tag": "#text",
+                "value": "\n    "
+            },
+            {
+                "tag": "#comment",
+                "value": " Here be comments "
+            },
+            {
+                "tag": "#text",
+                "value": "\n    Text. Just plain, old, regular text.\n"
+            }
+        ]
+    },
+    {
+        "tag": "#comment",
+        "value": " </SPAN> "
+    }
+]
