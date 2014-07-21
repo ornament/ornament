@@ -1,12 +1,13 @@
 var fs = require('fs');
 var jsdom = require('jsdom').jsdom;
 var test = require('tape');
+var sinon = require('sinon');
 var compiler = require('../../compiler.js');
 var runtime = require('../../runtime.js');
 var Model = require('backbone').Model;
 
 test('binds from view to model', function(t) {
-    t.plan(14);
+    t.plan(17);
 
     var compiled = compiler(fs.readFileSync(__dirname + '/input.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
@@ -42,8 +43,11 @@ test('binds from view to model', function(t) {
     t.equal(el.getAttribute('value'), 'Leeeeeeeeeeeeeroy!');
 
     el.setAttribute('value', 'Jenkins');
+    var setAttribute = sinon.stub(el, 'setAttribute');
     triggerChange(el);
     t.equal(data.get('message'), 'Jenkins');
+    t.notOk(setAttribute.called);
+    setAttribute.restore();
 
     el = tree.childNodes[2];
     t.equal(el.nodeName.toLowerCase(), 'input');
@@ -53,8 +57,11 @@ test('binds from view to model', function(t) {
     t.equal(el.getAttribute('value'), '1337');
 
     el.setAttribute('value', '3.14');
+    setAttribute = sinon.stub(el, 'setAttribute');
     triggerChange(el);
     t.equal(data.get('count'), 1336);
+    t.notOk(setAttribute.called);
+    setAttribute.restore();
 
     el = tree.childNodes[4];
     t.equal(el.nodeName.toLowerCase(), 'input');
@@ -64,42 +71,9 @@ test('binds from view to model', function(t) {
     t.equal(el.getAttribute('value'), 'Your name: John');
 
     el.setAttribute('value', 'Your name: John Scott');
+    setAttribute = sinon.stub(el, 'setAttribute');
     triggerChange(el);
     t.equal(data.get('name'), 'John');
-    // TODO: Caret pos before/after
+    t.notOk(setAttribute.called);
+    setAttribute.restore();
 });
-
-// handle expressions
-// parse expressions to check for syntax errors, then extract listen-fields..
-// ..mutate expressions from foo.bar.baz to whatever is required by binding
-// ornament -b backbone app.t > app.json
-
-// At compile-time the entire "value" attribute is checked. If it only contains a single
-// property then it can be bound both ways, but if it is an expression
-
-// WIP 2
-// Binds both ways
-/*
-<input value="{{this.title}}">
-[{
-    "tag": "input",
-    "attributes": {
-        "value": {
-            "fields": ["title"]
-        }
-    }
-}]
-*/
-// Binds only model->view (display warning during compilation?)
-/*
-<input value="{{this.count + 1}}">
-[{
-    "tag": "input",
-    "attributes": {
-        "value": {
-            "fields": [["count"]],
-            "expression": "helpers.read(this, 'count') + 1"
-        }
-    }
-}]
-*/
