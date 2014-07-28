@@ -20,4 +20,6 @@
 * Run tests on travis and testling
 * Add 'strict' mode to parser: http://w3c.github.io/elements-of-html/
 * JSCS JSDoc
-* Make runtime return a Ornament instance instead of a documentFragment. Add `appendTo()` and `destroy()`
+* Make runtime return a Ornament instance instead of a documentFragment. Add `appendTo()`, `destroy()`, `setOptions()`, `setBinding()`
+* <input type="text" value="{{this.blurb}}"><br/>{{this.blurb}} <-- error
+* https://www.npmjs.org/package/deep-diff OR https://www.npmjs.org/package/virtual-dom
