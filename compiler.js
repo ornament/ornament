@@ -87,12 +87,44 @@ function parseExpression(expression) {
 }
 
 function interpolate(text) {
-    var expression = ('\'' + text + '\'')
-        .replace(/;\s*(\}\})/, '$1')
-        .replace(/^'\{\{/, '(')
-        .replace(/\}\}'$/, ')')
-        .replace(/\{\{/g, '\' + (')
-        .replace(/\}\}/g, ') + \'');
+    var chars = text.split('');
+    var i = 0;
+    var c;
+    var statement = '';
+    var expression = '';
+    var open = false;
+    while ((c = chars[i++])) {
+        if (c === '{' && chars[i] === '{') {
+            i++;
+            if (statement) {
+                if (expression) {
+                    expression += ' + ';
+                }
+                expression += JSON.stringify(statement);
+            }
+            statement = '';
+            open = true;
+        } else if (open && c === '}' && chars[i] === '}') {
+            i++;
+            if (statement) {
+                statement = statement.replace(/;\s*$/, '');
+                if (expression) {
+                    expression += ' + ';
+                }
+                expression += '(' + statement + ')';
+            }
+            statement = '';
+            open = false;
+        } else {
+            statement += c;
+        }
+    }
+    if (statement) {
+        if (expression) {
+            expression += ' + ';
+        }
+        expression += JSON.stringify(statement);
+    }
     var ast = esprima.parse(expression);
     if (isSingleStringLiteralExpression(ast)) {
         return text;

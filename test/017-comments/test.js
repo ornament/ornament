@@ -6,7 +6,7 @@ var runtime = require('../../runtime.js');
 var Model = require('backbone').Model;
 
 test('parses and renders comments', function(t) {
-    t.plan(11);
+    t.plan(17);
 
     var compiled = compiler(fs.readFileSync(__dirname + '/comment.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
@@ -23,7 +23,7 @@ test('parses and renders comments', function(t) {
         comment: 'something'
     });
     var tree = runtime(compiled, data);
-    t.equal(tree.childNodes.length, 6);
+    t.equal(tree.childNodes.length, 12);
     var el = tree.childNodes[0];
     t.equal(el.nodeName.toLocaleLowerCase(), '#comment');
     t.equal(el.nodeValue, ' This is a comment ');
@@ -34,6 +34,15 @@ test('parses and renders comments', function(t) {
     t.equal(el.nodeName.toLocaleLowerCase(), '#comment');
     t.equal(el.nodeValue, ' </SPAN> ');
     el = tree.childNodes[5];
+    t.equal(el.nodeName.toLocaleLowerCase(), '#comment');
+    t.equal(el.nodeValue, ' Make sure this doesn\'t break \\\' \\\\\' ');
+    el = tree.childNodes[7];
+    t.equal(el.nodeName.toLocaleLowerCase(), '#comment');
+    t.equal(el.nodeValue, 'something worl\'d!');
+    el = tree.childNodes[9];
+    t.equal(el.nodeName.toLocaleLowerCase(), '#comment');
+    t.equal(el.nodeValue, 'Hello something');
+    el = tree.childNodes[11];
     t.equal(el.nodeName.toLocaleLowerCase(), '#comment');
     t.equal(el.nodeValue, ' Well well well something ');
 

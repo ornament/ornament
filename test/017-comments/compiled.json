@@ -34,6 +34,32 @@
     },
     {
         "tag": "#comment",
+        "value": " Make sure this doesn't break \\' \\\\' "
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "#comment",
+        "fields": [["comment"]],
+        "expression": "helpers.read(this, 'comment') + ' worl\\'d!';"
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "#comment",
+        "fields": [["comment"]],
+        "expression": "'Hello ' + helpers.read(this, 'comment');"
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "#comment",
         "fields": [["comment"]],
         "expression": "' Well well well ' + helpers.read(this, 'comment') + ' ';"
     }
