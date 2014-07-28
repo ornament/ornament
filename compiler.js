@@ -5,6 +5,7 @@ var types = require('ast-types');
 var namedTypes = types.namedTypes;
 var builders = types.builders;
 var voidElements = require('./void-elements.js');
+var decode = (new (require('html-entities').AllHtmlEntities)()).decode;
 
 function ensureChildren(element) {
     if (!element.children) {
@@ -116,7 +117,7 @@ function createTextNode(parent, text) {
     if (!text) { return; }
     var element = {
         tag: '#text',
-        value: text
+        value: decode(text)
     };
     ensureChildren(parent);
     parent.children.push(element);
