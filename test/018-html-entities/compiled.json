@@ -1,0 +1,18 @@
+[
+    {
+        "tag": "button",
+        "attributes": {
+            "class": "close"
+        },
+        "children": [
+            {
+                "tag": "#text",
+                "value": "×"
+            }
+        ]
+    },
+    {
+        "tag": "#text",
+        "value": "\n«Yeah, ok»\næøå\n© Awesome Inc."
+    }
+]
