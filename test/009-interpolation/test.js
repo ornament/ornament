@@ -5,7 +5,7 @@ var compiler = require('../../compiler.js');
 var runtime = require('../../runtime.js');
 
 test('basic string interpolation', function(t) {
-    t.plan(44);
+    t.plan(46);
 
     var compiled = compiler(fs.readFileSync(__dirname + '/interpolation.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
@@ -20,7 +20,7 @@ test('basic string interpolation', function(t) {
         last: 'Doe'
     };
     var tree = runtime(compiled, data);
-    t.equal(tree.childNodes.length, 7);
+    t.equal(tree.childNodes.length, 9);
     var el = tree.childNodes[0];
     t.equal(el.nodeName.toLowerCase(), 'span');
     t.equal(el.childNodes.length, 3);
@@ -70,4 +70,7 @@ test('basic string interpolation', function(t) {
     t.equal(el.childNodes[1].nodeValue, 'John');
     t.equal(el.childNodes[2].nodeName.toLowerCase(), '#text');
     t.equal(el.childNodes[2].nodeValue, '\'');
+    el = tree.childNodes[8];
+    t.equal(el.nodeName.toLowerCase(), '#text');
+    t.deepEqual(String(el.nodeValue), '[object Object]');
 });

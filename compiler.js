@@ -25,10 +25,15 @@ function isSingleExpressionProgram(program) {
         namedTypes.ExpressionStatement.check(body[0]);
 }
 
+function isMemberOrThisExpression(node) {
+    return namedTypes.MemberExpression.check(node) ||
+        namedTypes.ThisExpression.check(node);
+}
+
 function isSingleMemberExpression(program) {
     var body = program.body;
     return isSingleExpressionProgram(program) &&
-        namedTypes.MemberExpression.check(body[0].expression);
+        isMemberOrThisExpression(body[0].expression);
 }
 
 function isSingleStringLiteralExpression(program) {
@@ -47,7 +52,7 @@ function parseExpression(expression) {
     var isSingleMember = isSingleMemberExpression(ast);
     var fields = [];
     types.traverse(ast, function(node) {
-        if (namedTypes.MemberExpression.check(node)) {
+        if (isMemberOrThisExpression(node)) {
             if (namedTypes.CallExpression.check(this.parent.node) &&
                 this.parent.node.callee === node) {
                 return false;

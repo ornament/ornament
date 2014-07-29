@@ -100,5 +100,13 @@
                 "value": "'"
             }
         ]
+    },
+    {
+        "tag": "#text",
+        "value": "\n"
+    },
+    {
+        "tag": "#text",
+        "fields": [[]]
     }
 ]
