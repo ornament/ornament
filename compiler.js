@@ -265,6 +265,12 @@ function parse(parent, chars, i) {
                         throw new Error('Parse error: multiple \'' + attributeName + '\' attributes detected');
                     }
                     el.repeat = parseExpression(attributeValue);
+                } else if (attributeName === 'parse') {
+                    if (el.hasOwnProperty(attributeName)) {
+                        throw new Error('Parse error: multiple \'' + attributeName + '\' attributes detected');
+                    }
+                    esprima.parse(attributeValue); // TODO: Better validation
+                    el.parse = attributeValue;
                 } else {
                     ensureAttributes(el);
                     if (el.attributes.hasOwnProperty(attributeName)) {

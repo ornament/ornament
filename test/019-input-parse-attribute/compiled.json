@@ -1,0 +1,12 @@
+[
+    {
+        "tag": "input",
+        "parse": "parseInt(value, 10)",
+        "attributes": {
+            "type": "number",
+            "value": {
+                "fields": [["num"]]
+            }
+        }
+    }
+]
