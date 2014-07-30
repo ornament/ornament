@@ -115,8 +115,15 @@ function createNode(root, element, scope, config, indexOffset) {
                     element.tag === 'input') {
                     // TODO: Should probably fall back to 'change' for 'select' and 'keygen'
                     var eventName = 'oninput' in el ? 'input' : 'keyup';
+                    var parse = _.identity;
+                    if (element.parse) {
+                        /* jshint evil: true */
+                        parse = new Function('value', 'return ' + element.parse);
+                        /* jshint evil: false */
+                    }
                     el.addEventListener(eventName, function(event) {
-                        var args = [event.target.value, scope].concat(value.fields[0]);
+                        var val = parse(event.target.value);
+                        var args = [val, scope].concat(value.fields[0]);
                         config.write.apply(null, args);
                     });
                 }
