@@ -103,7 +103,7 @@ function createNode(root, element, scope, config, indexOffset) {
                 el.setAttribute(attr, fn(config));
                 if (config.listen) {
                     var onChange = function(helpers) {
-                        var value = fn(helpers);
+                        var value = String(fn(helpers));
                         if (el.getAttribute(attr) !== value) {
                             el.setAttribute(attr, value);
                         }
