@@ -6,7 +6,7 @@ var runtime = require('../../runtime.js');
 var Model = require('backbone').Model;
 
 test('allows for an optional `parse` attribute on input elements', function(t) {
-    t.plan(5);
+    t.plan(6);
 
     var compiled = compiler(fs.readFileSync(__dirname + '/template.t', 'UTF-8'));
     t.deepEqual(compiled, require('./compiled.json'));
@@ -36,6 +36,7 @@ test('allows for an optional `parse` attribute on input elements', function(t) {
     var el = tree.childNodes[0];
     t.equal(el.nodeName.toLowerCase(), 'input');
     t.equal(el.getAttribute('value'), '41');
+    t.equal(el.getAttribute('parse'), null);
 
     el.setAttribute('value', '42');
     triggerChange(el);
